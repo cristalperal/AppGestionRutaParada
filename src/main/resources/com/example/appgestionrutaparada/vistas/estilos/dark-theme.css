@@ -1,0 +1,62 @@
+/* dark-theme.css */
+
+/* --- Colores de Fondo Generales --- */
+.root {
+    -fx-base: #3C3F41; /* Color base oscuro (similar a IntelliJ IDEA dark theme) */
+    -fx-background: #2B2B2B; /* Fondo principal muy oscuro */
+    -fx-control-inner-background: #4E5254; /* Fondo de TextFields/Comoboxes */
+    -fx-selection-bar: #3399FF; /* Color de selección (azul vibrante) */
+    -fx-text-base-color: #BBBBBB; /* Color de texto claro */
+    -fx-text-fill: #BBBBBB; /* Color de texto para la mayoría de los componentes */
+}
+
+/* --- Títulos y Paneles (Como el Panel de Control Lateral) --- */
+.label {
+    -fx-text-fill: -fx-text-base-color;
+}
+
+/* --- Botones (Estilo Moderno) --- */
+.button {
+    -fx-background-color: #6C7A89; /* Color de botón gris/azul */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.button:hover {
+    -fx-background-color: #5E6977; /* Un poco más oscuro al pasar el ratón */
+}
+
+/* --- Botón Primario (e.g., "Calcular Ruta Óptima" - Azul Vibrante) --- */
+/* Debes asignarle una clase en FXML: styleClass="primary-button" */
+.primary-button {
+    -fx-background-color: #1E90FF; /* Azul brillante */
+    -fx-text-fill: white;
+}
+
+.primary-button:hover {
+    -fx-background-color: #0077CC;
+}
+
+/* --- Campos de Texto y ComboBoxes --- */
+.text-field, .combo-box, .text-area {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-border-color: #555555;
+    -fx-border-radius: 3px;
+}
+
+/* --- TableView --- */
+.table-view {
+    -fx-background-color: #2B2B2B;
+    -fx-fill: -fx-text-base-color;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #4E5254; /* Fondo de cabecera de tabla */
+}
+
+.table-row-cell:selected {
+    -fx-background-color: -fx-selection-bar;
+}

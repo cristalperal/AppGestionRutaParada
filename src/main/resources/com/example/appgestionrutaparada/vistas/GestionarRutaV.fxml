@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="625.0" prefWidth="1048.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.RutaController">
+   <children>
+      <AnchorPane id="pnlPrincipal" fx:id="pnlPrincipal" layoutX="-16.0" layoutY="-1.0" prefHeight="725.0" prefWidth="1115.0" style="-fx-background-color: #404258;">
+         <children>
+            <Pane id="pnl" fx:id="pnl" layoutY="-1.0" prefHeight="51.0" prefWidth="1115.0" style="-fx-background-color: #37353E;">
+               <children>
+                  <Label layoutX="458.0" layoutY="14.0" prefHeight="23.0" prefWidth="200.0" text="Gestión de Rutas" textFill="#fdf6f6">
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Label layoutX="31.0" layoutY="57.0" prefHeight="20.0" prefWidth="129.0" text="Registrar Ruta" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <VBox layoutX="31.0" layoutY="93.0" prefHeight="525.0" prefWidth="310.0">
+               <children>
+                  <Label prefHeight="20.0" prefWidth="129.0" text="Código " textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField id="txtCod" fx:id="txtCod" />
+                  <Separator prefHeight="23.0" prefWidth="303.0" />
+                  <Label layoutX="10.0" layoutY="10.0" prefHeight="20.0" prefWidth="129.0" text="Nombre" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField id="txtNombreR" fx:id="txtNombreR" layoutX="10.0" layoutY="30.0" />
+                  <Separator layoutX="10.0" layoutY="55.0" prefHeight="23.0" prefWidth="303.0" />
+                  <Label layoutX="10.0" layoutY="79.0" prefHeight="20.0" prefWidth="129.0" text="Distancia (KM)" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Spinner id="spnDistancia" fx:id="spnDistancia" layoutX="10.0" layoutY="211.0" />
+                  <Separator layoutX="10.0" layoutY="124.0" prefHeight="23.0" prefWidth="303.0" />
+                  <Label layoutX="10.0" layoutY="147.0" prefHeight="20.0" prefWidth="129.0" text="Costo (RD)" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Spinner id="spnCosto" fx:id="spnCosto" />
+                  <Separator layoutX="10.0" layoutY="193.0" prefHeight="23.0" prefWidth="266.0" />
+                  <Label layoutX="10.0" layoutY="216.0" prefHeight="20.0" prefWidth="129.0" text="Transbordos" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Spinner id="spnTransbordo" fx:id="spnTransbordo" layoutX="10.0" layoutY="236.0" />
+                  <Separator layoutX="10.0" layoutY="261.0" prefHeight="23.0" prefWidth="303.0" />
+                  <Label layoutX="10.0" layoutY="285.0" prefHeight="20.0" prefWidth="129.0" text="Tiempo (Minutos)" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Spinner id="spnTiempo" fx:id="spnTiempo" layoutX="10.0" layoutY="305.0" />
+                  <Separator layoutX="10.0" layoutY="330.0" prefHeight="23.0" prefWidth="303.0" />
+                  <Label id="txtParadaO" fx:id="txtParadaO" layoutX="10.0" layoutY="10.0" prefHeight="20.0" prefWidth="129.0" text="Parada Origen" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField id="txtCod" fx:id="txtParadaO" layoutX="10.0" layoutY="30.0" />
+                  <Separator layoutX="10.0" layoutY="55.0" prefHeight="23.0" prefWidth="303.0" />
+                  <Label layoutX="10.0" layoutY="422.0" prefHeight="20.0" prefWidth="129.0" text="Parada Destino" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField id="txtParadaD" fx:id="txtParadaD" layoutX="10.0" layoutY="442.0" />
+               </children>
+            </VBox>
+            <Button id="btnGuardar" fx:id="btnGuardar" layoutX="86.0" layoutY="645.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #0275d8;" text="Guardar" textFill="#f6f2f2" />
+            <Button id="btnActualizar" fx:id="btnActualizar" disable="true" layoutX="783.0" layoutY="525.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #0275d8;" text="Actualizar" textFill="#f6f2f2" />
+            <Button id="btneliminar" fx:id="btneliminar" disable="true" layoutX="951.0" layoutY="525.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #0275d8;" text="Eliminar" textFill="#f6f2f2" />
+            <TableView fx:id="tblRuta" layoutX="355.0" layoutY="112.0" prefHeight="397.0" prefWidth="747.0">
+               <columns>
+                   <TableColumn fx:id="colID" prefWidth="74.666748046875" text="ID" />
+                   <TableColumn fx:id="colNombre" prefWidth="116.6666259765625" text="Nombre" />
+                   <TableColumn fx:id="colDistancia" prefWidth="89.3333740234375" text="Distancia" />
+                   <TableColumn fx:id="colCosto" prefWidth="59.3333740234375" text="Costo" />
+                   <TableColumn fx:id="colTransbordos" prefWidth="93.33331298828125" text="Transbordos" />
+                   <TableColumn fx:id="colTiempo" prefWidth="66.0" text="Tiempo" />
+                   <TableColumn fx:id="colParadaOrigen" prefWidth="116.6666259765625" text="Parada Origen" />
+                   <TableColumn fx:id="colParadaDestino" prefWidth="129.3333740234375" text="Parada Destino" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
