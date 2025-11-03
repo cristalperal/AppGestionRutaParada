@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="625.0" prefWidth="1048.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.RutaController">
+<AnchorPane prefHeight="625.0" prefWidth="1048.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.RutaController">
    <children>
       <AnchorPane id="pnlPrincipal" fx:id="pnlPrincipal" layoutX="-16.0" layoutY="-1.0" prefHeight="725.0" prefWidth="1115.0" style="-fx-background-color: #404258;">
          <children>
             <Pane id="pnl" fx:id="pnl" layoutY="-1.0" prefHeight="51.0" prefWidth="1115.0" style="-fx-background-color: #37353E;">
                <children>
-                  <Label layoutX="458.0" layoutY="14.0" prefHeight="23.0" prefWidth="200.0" text="Gestión de Rutas" textFill="#fdf6f6">
+                  <Label layoutX="549.0" layoutY="14.0" prefHeight="23.0" prefWidth="200.0" text="Gestión de Rutas" textFill="#fdf6f6">
+                     <font>
+                        <Font name="Arial Bold Italic" size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="401.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Imagenes/logo.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="436.0" layoutY="14.0" prefHeight="23.0" prefWidth="122.0" text="GeoParada" textFill="#fdf6f6">
                      <font>
                         <Font name="Arial Bold" size="20.0" />
                      </font>
@@ -29,7 +50,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField id="txtCod" fx:id="txtCod" />
+                  <TextField id="txtCod" fx:id="txtCod" disable="true" editable="false" />
                   <Separator prefHeight="23.0" prefWidth="303.0" />
                   <Label layoutX="10.0" layoutY="10.0" prefHeight="20.0" prefWidth="129.0" text="Nombre" textFill="WHITE">
                      <font>
@@ -66,19 +87,19 @@
                   </Label>
                   <Spinner id="spnTiempo" fx:id="spnTiempo" layoutX="10.0" layoutY="305.0" />
                   <Separator layoutX="10.0" layoutY="330.0" prefHeight="23.0" prefWidth="303.0" />
-                  <Label id="txtParadaO" fx:id="txtParadaO" layoutX="10.0" layoutY="10.0" prefHeight="20.0" prefWidth="129.0" text="Parada Origen" textFill="WHITE">
+                  <Label fx:id="lblParadaO" layoutX="10.0" layoutY="10.0" prefHeight="20.0" prefWidth="187.0" text="Parada Origen (Código)" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField id="txtCod" fx:id="txtParadaO" layoutX="10.0" layoutY="30.0" />
+                  <ComboBox fx:id="cmboxOrigen" prefHeight="25.0" prefWidth="162.0" />
                   <Separator layoutX="10.0" layoutY="55.0" prefHeight="23.0" prefWidth="303.0" />
-                  <Label layoutX="10.0" layoutY="422.0" prefHeight="20.0" prefWidth="129.0" text="Parada Destino" textFill="WHITE">
+                  <Label layoutX="10.0" layoutY="422.0" prefHeight="20.0" prefWidth="166.0" text="Parada Destino (Código)" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField id="txtParadaD" fx:id="txtParadaD" layoutX="10.0" layoutY="442.0" />
+                  <ComboBox fx:id="cmboxDestino" prefHeight="25.0" prefWidth="159.0" />
                </children>
             </VBox>
             <Button id="btnGuardar" fx:id="btnGuardar" layoutX="86.0" layoutY="645.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #0275d8;" text="Guardar" textFill="#f6f2f2" />
@@ -96,6 +117,7 @@
                    <TableColumn fx:id="colParadaDestino" prefWidth="129.3333740234375" text="Parada Destino" />
                </columns>
             </TableView>
+            <Button id="btnCancelarAccion" fx:id="btnCancelarAccion" disable="true" layoutX="618.0" layoutY="525.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #0275d8;" text="Cancelar Acción" textFill="#f6f2f2" />
          </children>
       </AnchorPane>
    </children>

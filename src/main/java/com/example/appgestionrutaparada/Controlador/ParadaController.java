@@ -20,9 +20,6 @@ public class ParadaController implements Initializable {
     @FXML private TableColumn<Parada, String> colNombre;
     @FXML private TableColumn<Parada, String> colDireccion;
     @FXML private TableColumn<Parada, String> colTipoT;
-
-
-
     // para poder conectar los elementos con el formulario
     @FXML private TextField txtCod;         // fx:id="txtCod"
     @FXML private TextField txtNombrePa;    // fx:id="txtNombrePa"
@@ -33,12 +30,12 @@ public class ParadaController implements Initializable {
     @FXML private Button btnActualizar;
     @FXML private Button btnCancelarAccion;
 
-
     private Crud crudInstancia;// instancia del CRUD para poder usarlo
     private ObservableList<Parada> listaParadasO; // ObservableList se usa para poder refrezcar la tabla al cambiar algun elemento, es similar a ArrayList
-
     private Parada paradaSeleccionada = null;// para guardar la parada seleccionada
 
+    // Contador para el id de parada
+    private int nextRouteId = 1;
 
     // para poder iniciar el crud y las listas
     @Override
@@ -48,8 +45,11 @@ public class ParadaController implements Initializable {
         crudInstancia = Crud.getInstancia();
         listaParadasO = FXCollections.observableArrayList(crudInstancia.getParada());
 
-        // metodos para que el crud funcione
+        // Para el id automático
+        txtCod.setDisable(true);
+        setInitialRouteId();
 
+        // metodos para que el crud funcione
         configurarTabla(); // para hacer que la tabla sea dinamica 
         cargarDatos(); //para cargar los datos que ya esten 
         cargarOpcionesTransporte();// para que se cargen los diferentes transporte
@@ -65,13 +65,14 @@ public class ParadaController implements Initializable {
         );
     }
 
+    // Objetivo: Cancelar las acciones de actualizar y eliminar
     private void cancelarAccion(ActionEvent actionEvent) {
         tblParadas.getSelectionModel().clearSelection();
         restaurarEstadoFormulario();
     }
 
+    //Objetivo: cargar los datos de la tabla en el formulario para actualizar
     private void mostrarDetallesParada(Parada parada) {
-
         paradaSeleccionada = parada; // Guarda la referencia del objeto seleccionado
 
         if (parada != null) {
@@ -91,12 +92,12 @@ public class ParadaController implements Initializable {
         }
     }
 
+    //Objetivo: Eliminar una parada teniendo en cuenta que tambien se van a eleiminar sus rutas asociadas
     private void eliminarParada(ActionEvent actionEvent) {
         if (paradaSeleccionada == null) {
             mostrarAlerta("Error", "Seleccione una parada de la tabla para eliminar.", Alert.AlertType.WARNING);
             return;
         }
-
         // Confirmar la eliminación
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmar Eliminación");
@@ -120,25 +121,25 @@ public class ParadaController implements Initializable {
         }
     }
 
+    //Objetivo: Restablecer totalmente el formulario despues de una acción
     private void restaurarEstadoFormulario() {
         paradaSeleccionada = null;
         limpiarCampos();
         // Reestablecer botones y campos
-        txtCod.setDisable(false);
+        txtCod.setDisable(true);
         btnGuardar.setDisable(false);
         btnActualizar.setDisable(true);
         btnEliminar.setDisable(true);
         btnCancelarAccion.setDisable(true);
     }
 
-    // Metodo para actualizar una parada
+    //Objetivo: Actualizar una parada
     private void ModificarParada(ActionEvent actionEvent) {
         // si no eligen una parada valida
         if (paradaSeleccionada == null) {
             mostrarAlerta("Error", "Seleccione una parada de la tabla para actualizar.", Alert.AlertType.WARNING);
             return;
         }
-
        // guardar los nuevos datos
         String idExistente = paradaSeleccionada.getIdParada(); // El ID NO cambia
         String nuevoNombre = txtNombrePa.getText();
@@ -170,7 +171,7 @@ public class ParadaController implements Initializable {
         }
     }
 
-
+    //Objetivo: Guardar una parada ingresada en la lista para mostrarala en la tabla, se podra actualizar y eliminar
     private void guardarParada(ActionEvent actionEvent) {
         String codParada = txtCod.getText();
         String nombreParada = txtNombrePa.getText();
@@ -181,13 +182,13 @@ public class ParadaController implements Initializable {
             mostrarAlerta("Error de Datos", "Debe completar todos los campos para registrar la parada.", Alert.AlertType.ERROR);
             return;
         }
-
         // crear el objeto
         Parada nuevaparada = new Parada(codParada,nombreParada,direccionParada,tipoT, "No Visitada" );
 
         // para guardar la informacion
         if(crudInstancia.agregarParada(nuevaparada)){
             // si se agrego correctamente se añade a la lista
+            nextRouteId++;
             listaParadasO.add(nuevaparada);
             mostrarAlerta("Registro con éxito", "Parada " + nombreParada + " Registrada Correctamente .", Alert.AlertType.INFORMATION);
             limpiarCampos();
@@ -196,43 +197,37 @@ public class ParadaController implements Initializable {
         }
     }
 
+    //Objetivo: Limpia los campos del formulario
     private void limpiarCampos() {
-        txtCod.clear();
+        txtCod.setText(generateNextRouteId());
         txtNombrePa.clear();
         txtDireccion.clear();
         cmboxTipoT.getSelectionModel().clearSelection();
     }
 
+    //Objetivo: Carga los diferentes tipos de transporte en el comboBox
     private void cargarOpcionesTransporte() {
         ObservableList<String> tipos = FXCollections.observableArrayList("Carro", "Autobus", "Motocicleta", "Mixto");
         cmboxTipoT.setItems(tipos);
     }
 
+    //Objetivo: Carga todos los datos de la lista
     private void cargarDatos() {
         // Enlazar la lista observable con la tabla
         tblParadas.setItems(listaParadasO);
     }
 
+    //Objetivo: Muestra los datos en la tabla
     private void configurarTabla() {
-        /*
-         * Los nombres deben coincidir con los de la clase original
-         * */
-        // Columna ID
+        //Los nombres deben coincidir con los de la clase original
         // La lambda toma un objeto Parada (param) y devuelve la propiedad (getParadaProperty()).
         colID.setCellValueFactory(param -> param.getValue().idParadaProperty());
-
-        // Columna Nombre
         colNombre.setCellValueFactory(param -> param.getValue().nombreParadaProperty());
-
-        // Columna Dirección
         colDireccion.setCellValueFactory(param -> param.getValue().direccionParadaProperty());
-
-        // Columna Tipo Transporte
         colTipoT.setCellValueFactory(param -> param.getValue().tipoTransporteProperty());
     }
 
-
-    // metodo generico para las alertas
+    //Objetivo: método genérico para las alertas
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
@@ -241,5 +236,20 @@ public class ParadaController implements Initializable {
         alert.showAndWait();
     }
 
+
+    // Métodos para general el id automático
+    private String generateNextRouteId() {
+        return String.format("P%03d", nextRouteId);
+    }
+
+    private void setInitialRouteId() {
+        // Esto asegura que, al iniciar, el ID tome el valor del último elemento + 1.
+        if (listaParadasO != null && !listaParadasO.isEmpty()) {
+            nextRouteId = listaParadasO.size() + 1;
+        } else {
+            nextRouteId = 1;
+        }
+        txtCod.setText(generateNextRouteId());
+    }
 
 }

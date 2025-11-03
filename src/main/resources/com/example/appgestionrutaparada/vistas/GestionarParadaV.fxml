@@ -7,6 +7,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -16,7 +18,17 @@
    <children>
       <Pane id="pnl" fx:id="pnl" prefHeight="50.0" prefWidth="934.0" style="-fx-background-color: #37353E;">
          <children>
-            <Label layoutX="367.0" layoutY="14.0" prefHeight="23.0" prefWidth="200.0" text="Gestión de Paradas" textFill="#fdf6f6">
+            <Label layoutX="451.0" layoutY="14.0" prefHeight="23.0" prefWidth="200.0" text="Gestión de Paradas" textFill="#fdf6f6">
+               <font>
+                  <Font name="Arial Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="304.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Imagenes/logo.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="339.0" layoutY="14.0" prefHeight="23.0" prefWidth="112.0" text="GeoParada" textFill="#fdf6f6">
                <font>
                   <Font name="Arial Bold" size="20.0" />
                </font>
@@ -35,7 +47,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TextField id="txtCod" fx:id="txtCod" />
+            <TextField id="txtCod" fx:id="txtCod" disable="true" editable="false" opacity="0.47" />
             <Separator prefHeight="23.0" prefWidth="303.0" />
             <Label layoutX="10.0" layoutY="10.0" prefHeight="20.0" prefWidth="129.0" text="Nombre" textFill="WHITE">
                <font>
