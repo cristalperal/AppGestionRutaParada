@@ -13,7 +13,7 @@ public class MainApp extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/com/example/appgestionrutaparada/vistas/menuPrincipalV.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Sistema de Gestión de Rutas y Paradas");
+        stage.setTitle("GeoParada - Sistema de Gestión de Rutas y Paradas");
         stage.setScene(scene);
         stage.show();
     }
