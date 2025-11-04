@@ -70,7 +70,7 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane layoutX="359.0" layoutY="79.0" prefHeight="495.0" prefWidth="783.0" style="-fx-background-color: #474E68;" />
+            <Pane layoutX="359.0" layoutY="79.0" prefHeight="495.0" prefWidth="773.0" style="-fx-background-color: #474E68;" />
             <Pane layoutX="359.0" layoutY="591.0" prefHeight="131.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
                <children>
                   <Label layoutX="14.0" layoutY="14.0" prefHeight="20.0" prefWidth="103.0" text="Rutas Activas" textFill="#fffbfb">
