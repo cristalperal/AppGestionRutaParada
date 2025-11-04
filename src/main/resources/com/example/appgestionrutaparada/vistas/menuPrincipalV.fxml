@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="741.0" prefWidth="1143.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.MenuPController">
+<AnchorPane prefHeight="939.0" prefWidth="1415.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.MenuPController">
    <children>
-      <AnchorPane prefHeight="747.0" prefWidth="1143.0" style="-fx-background-color: #404258;">
+      <AnchorPane prefHeight="939.0" prefWidth="1415.0" style="-fx-background-color: #404258;">
          <children>
-            <Pane id="pnlMeni z x c v s g" layoutX="25.0" layoutY="79.0" prefHeight="644.0" prefWidth="321.0" style="-fx-background-color: #474E68;">
+            <Pane id="pnlMeni z x c v s g" layoutX="25.0" layoutY="79.0" prefHeight="833.0" prefWidth="321.0" style="-fx-background-color: #474E68;">
                <children>
                   <Pane prefHeight="52.0" prefWidth="321.0" style="-fx-background-color: #37353E;">
                      <children>
@@ -35,71 +35,73 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Separator layoutX="21.0" layoutY="312.0" prefHeight="4.0" prefWidth="261.0" style="-fx-background-color: #50577A;" />
-                  <Label layoutX="15.0" layoutY="338.0" prefHeight="20.0" prefWidth="103.0" text="Resultados" textFill="WHITE">
+                  <Separator layoutX="21.0" layoutY="273.0" prefHeight="4.0" prefWidth="261.0" style="-fx-background-color: #50577A;" />
+                  <ComboBox layoutX="121.0" layoutY="103.0" prefWidth="150.0" promptText="Seleccionar" />
+                  <ComboBox layoutX="121.0" layoutY="141.0" prefWidth="150.0" promptText="Seleccionar" />
+                  <Label layoutX="21.0" layoutY="295.0" prefHeight="20.0" prefWidth="293.0" text="Gestión De Rutas y Paradas" textFill="#fffbfb">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="10.0" layoutY="372.0" prefHeight="78.0" prefWidth="283.0" style="-fx-background-color: #50577A;" />
-                  <Separator layoutX="21.0" layoutY="465.0" prefHeight="4.0" prefWidth="261.0" style="-fx-background-color: #50577A;" />
-                  <ComboBox layoutX="142.0" layoutY="103.0" prefWidth="150.0" promptText="Seleccionar" />
-                  <ComboBox layoutX="142.0" layoutY="141.0" prefWidth="150.0" promptText="Seleccionar" />
-                  <Label layoutX="14.0" layoutY="499.0" prefHeight="20.0" prefWidth="293.0" text="Gestión De Rutas y Paradas" textFill="#fffbfb">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Button id="btnGestionarParada" fx:id="btnGestionarParada" layoutX="52.0" layoutY="536.0" mnemonicParsing="false" onAction="#AbrirGestionParada" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Gestionar Paradas" textFill="WHITE" />
-                  <Button id="btnGestionarRuta" fx:id="btnGestionarRuta" layoutX="53.0" layoutY="589.0" mnemonicParsing="false" onAction="#AbrirGestionRuta" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Gestionar Rutas" textFill="WHITE" />
-                  <Button id="btnCalcularRuta" fx:id="btnCalcularRuta" layoutX="59.0" layoutY="259.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="184.0" style="-fx-background-color: #0275d8;" text="Calcular Ruta" textFill="WHITE" />
-                  <ImageView fitHeight="41.0" fitWidth="35.0" layoutX="67.0" layoutY="592.0" pickOnBounds="true" preserveRatio="true">
+                  <Button id="btnGestionarParada" fx:id="btnGestionarParada" layoutX="53.0" layoutY="341.0" mnemonicParsing="false" onAction="#AbrirGestionParada" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Gestionar Paradas" textFill="WHITE" />
+                  <Button id="btnGestionarRuta" fx:id="btnGestionarRuta" layoutX="53.0" layoutY="398.0" mnemonicParsing="false" onAction="#AbrirGestionRuta" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Gestionar Rutas" textFill="WHITE" />
+                  <Button id="btnCalcularRuta" fx:id="btnCalcularRuta" layoutX="53.0" layoutY="206.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Calcular Ruta" textFill="WHITE" />
+                  <ImageView fitHeight="41.0" fitWidth="35.0" layoutX="66.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Imagenes/ruta.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="65.0" layoutY="543.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="66.0" layoutY="348.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Imagenes/parada.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="28.0" layoutX="196.0" layoutY="269.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="28.0" layoutX="84.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Imagenes/calcular.png" />
                      </image>
                   </ImageView>
+                  <Pane layoutX="35.0" layoutY="653.0" prefHeight="131.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="20.0" prefWidth="103.0" text="Rutas Activas" textFill="#fffbfb">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="115.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Imagenes/paradaActiva.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="35.0" layoutY="508.0" prefHeight="131.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
+                     <children>
+                        <Label layoutX="11.0" layoutY="13.0" prefHeight="20.0" prefWidth="103.0" text="Paradas Activas" textFill="#fffbfb">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="128.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Imagenes/rutaActiva.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Separator layoutX="21.0" layoutY="482.0" prefHeight="4.0" prefWidth="261.0" style="-fx-background-color: #50577A;" />
                </children>
             </Pane>
-            <Pane layoutX="359.0" layoutY="79.0" prefHeight="495.0" prefWidth="773.0" style="-fx-background-color: #474E68;" />
-            <Pane layoutX="359.0" layoutY="591.0" prefHeight="131.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
+            <Pane layoutX="359.0" layoutY="79.0" prefHeight="443.0" prefWidth="1032.0" style="-fx-background-color: #474E68;">
                <children>
-                  <Label layoutX="14.0" layoutY="14.0" prefHeight="20.0" prefWidth="103.0" text="Rutas Activas" textFill="#fffbfb">
+                  <Label layoutX="26.0" layoutY="14.0" prefHeight="20.0" prefWidth="103.0" text="Resultados" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="115.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Imagenes/paradaActiva.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Pane layoutX="615.0" layoutY="591.0" prefHeight="131.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
-               <children>
-                  <Label layoutX="11.0" layoutY="13.0" prefHeight="20.0" prefWidth="103.0" text="Paradas Activas" textFill="#fffbfb">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="128.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Imagenes/rutaActiva.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Pane layoutX="-6.0" prefHeight="52.0" prefWidth="1149.0" style="-fx-background-color: #37353E;">
+                  <Separator layoutX="26.0" layoutY="44.0" prefHeight="4.0" prefWidth="261.0" style="-fx-background-color: #50577A;" />
+               </children></Pane>
+            <Pane layoutX="-6.0" prefHeight="52.0" prefWidth="1423.0" style="-fx-background-color: #37353E;">
                <children>
                   <Label contentDisplay="CENTER" layoutX="41.0" layoutY="6.0" prefHeight="39.0" prefWidth="124.0" text="     GeoParada" textFill="#f4f2f2">
                      <font>
@@ -116,6 +118,16 @@
                         <Image url="@Imagenes/logo.png" />
                      </image>
                   </ImageView>
+               </children>
+            </Pane>
+            <Pane layoutX="359.0" layoutY="534.0" prefHeight="375.0" prefWidth="691.0" style="-fx-background-color: #474E68;">
+               <children>
+                  <Label layoutX="32.0" layoutY="21.0" prefHeight="20.0" prefWidth="103.0" text="Mapa" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="32.0" layoutY="51.0" prefHeight="4.0" prefWidth="261.0" style="-fx-background-color: #50577A;" />
                </children>
             </Pane>
          </children>

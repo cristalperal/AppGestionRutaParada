@@ -22,7 +22,6 @@ public class Crud {
     public List<Parada> getParada() {
         return paradas;
     }
-
     public List<List<Ruta>> getRuta() {
         return rutas;
     }
@@ -35,6 +34,7 @@ public class Crud {
     }
 
     //Métodos de Parada
+    //Objetivo:
     public boolean agregarParada(Parada p) {
         if (buscarIndexParada(p.getIdParada()) == -1) {
             paradas.add(p);
@@ -44,7 +44,8 @@ public class Crud {
         return false;
     }
 
-    //Para verificar si ya existe la Parada, para eliminarla o modificarla
+
+    //Objetivo: Para verificar si ya existe la Parada, para eliminarla o modificarla
     public int buscarIndexParada(String idParada) {
         for (int i = 0; i < paradas.size(); i++) {
             if (paradas.get(i).getIdParada().equals(idParada)) {
@@ -54,6 +55,8 @@ public class Crud {
         return -1;
     }
 
+
+    //Objetivo:
     public boolean eliminarParada(String idParada) {
         int index = buscarIndexParada(idParada);
         if (index != -1) {
@@ -70,6 +73,8 @@ public class Crud {
         return false;
     }
 
+
+    //Objetivo:
     public boolean modificarParada(String idParada, Parada nuevaParada) {
         int index = buscarIndexParada(idParada);
         if (index != -1) {
@@ -80,34 +85,25 @@ public class Crud {
     }
 
     //Métodos de Ruta
-    public boolean agregarRuta(Ruta r) {
+
+    //Objetivo:
+    public boolean agregarRuta(Ruta r){
         //Verificar antes si existen las Paradas antes de agregar/crear una Ruta
         int origen = buscarIndexParada(r.getOrigenRuta());
         int destino = buscarIndexParada(r.getDestinoRuta());
 
-        if (origen != -1 && destino != -1) {
+        if(origen != -1 && destino != -1) {
             List<Ruta> listaRutas = rutas.get(origen);
-
-            if (buscarIndexRuta(listaRutas, r.getDestinoRuta()) == -1) {
+            if(buscarIndexRuta(listaRutas, r.getDestinoRuta()) == -1) {
                 listaRutas.add(r);
-
-                //Para que sea Bidireccional
-                List<Ruta> listaRutasInversa = rutas.get(destino);
-                if (buscarIndexRuta(listaRutasInversa, r.getOrigenRuta()) == -1) {
-                    Ruta inversa = new Ruta(r.getIdRuta() + "I", r.getNombreRuta(), r.getDistanciaRuta(),
-                            r.getCostoRuta(), r.getCantidadTransbordo(), r.getTiempoViaje(),
-                            r.getDestinoRuta(), //Origen de la inversa
-                            r.getOrigenRuta() //Destino de la inversa
-                    );
-                    listaRutasInversa.add(inversa);
-                }
                 return true;
             }
         }
         return false; //Por si no existen las paradas
     }
 
-    //Para verificar si ya existe la Ruta y para modificarla
+
+    //Objetivo: Para verificar si ya existe la Ruta y para modificarla
     public int buscarIndexRuta(List<Ruta> listaRutas, String idDestinoRuta) {
         for (int i = 0; i < listaRutas.size(); i++) {
             if (listaRutas.get(i).getDestinoRuta().equals(idDestinoRuta)) {
@@ -117,49 +113,26 @@ public class Crud {
         return -1;
     }
 
-    public boolean eliminarRuta(String idOrigenParada, String idDestinoParada) {
-        int indexOrigen = buscarIndexParada(idOrigenParada);
-        int indexDestino = buscarIndexParada(idDestinoParada);
-
-        if (indexOrigen != -1 && indexDestino != -1) {
-            //Eliminar la original
-            boolean borrada = rutas.get(indexOrigen).removeIf(r -> r.getDestinoRuta().equals(idDestinoParada));
-            //Eliminar la inversa
-            rutas.get(indexDestino).removeIf(r -> r.getDestinoRuta().equals(idOrigenParada));
-            return borrada;
+    //Objetivo:
+    public boolean eliminarRuta(String idOrigenParada, String idDestinoParada){
+        int index = buscarIndexParada(idOrigenParada);
+        if(index != -1){
+            return rutas.get(index).removeIf(r -> r.getDestinoRuta().equals(idDestinoParada));
         }
         return false;
     }
 
-    public boolean modificarRuta(String idOrigenParada, String idDestinoParada, Ruta nuevaRuta) {
-        int indexOrigen = buscarIndexParada(idOrigenParada);
-        int indexDestino = buscarIndexParada(idDestinoParada);
-
-        if (indexOrigen != -1 && indexDestino != -1) {
-            //Modificar la original
-            boolean modificada = false;
-            List<Ruta> listaOrigen = rutas.get(indexOrigen);
-            for (int i = 0; i < listaOrigen.size(); i++) {
-                if (listaOrigen.get(i).getDestinoRuta().equals(idDestinoParada)) {
-                    listaOrigen.set(i, nuevaRuta);
-                    modificada = true;
-                    break;
+    //Objetivo:
+    public boolean modificarRuta(String idOrigenParada, String idDestinoParada, Ruta nuevaRuta){
+        int index = buscarIndexParada(idOrigenParada);
+        if(index != -1){
+            List<Ruta> listaRutas = rutas.get(index);
+            for(int i = 0; i < listaRutas.size(); i++) {
+                if(listaRutas.get(i).getDestinoRuta().equals(idDestinoParada)) {
+                    listaRutas.set(i, nuevaRuta);
+                    return true;
                 }
             }
-
-            //Modificar la inversa
-            List<Ruta> listaDestino = rutas.get(indexDestino);
-            for (int i = 0; i < listaDestino.size(); i++) {
-                if (listaDestino.get(i).getDestinoRuta().equals(idOrigenParada)) {
-                    Ruta inversa = new Ruta(nuevaRuta.getIdRuta()+"I", nuevaRuta.getNombreRuta(), nuevaRuta.getDistanciaRuta(),
-                            nuevaRuta.getCostoRuta(), nuevaRuta.getCantidadTransbordo(), nuevaRuta.getTiempoViaje(),
-                            nuevaRuta.getDestinoRuta(), nuevaRuta.getOrigenRuta()
-                    );
-                    listaDestino.set(i, inversa);
-                    break;
-                }
-            }
-            return modificada;
         }
         return false;
     }

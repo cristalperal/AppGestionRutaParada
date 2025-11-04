@@ -39,7 +39,7 @@ public class Parada {
         return estadoParada;
     }
 
-  //  metodos estandar, Manipulan el valor String)
+  //  metodos estandar, Manipulan el valor String
 
     public String getIdParada() {
         //  Usa .get() para obtener el String

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="pnlPrincipal" fx:id="pnlPrincipal" prefHeight="502.0" prefWidth="934.0" style="-fx-background-color: #404258;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.ParadaController">
+<AnchorPane id="pnlPrincipal" fx:id="pnlPrincipal" prefHeight="502.0" prefWidth="934.0" style="-fx-background-color: #404258;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.ParadaController">
    <children>
       <Pane id="pnl" fx:id="pnl" prefHeight="50.0" prefWidth="934.0" style="-fx-background-color: #37353E;">
          <children>

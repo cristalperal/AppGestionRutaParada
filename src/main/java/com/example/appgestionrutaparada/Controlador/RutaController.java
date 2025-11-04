@@ -154,7 +154,7 @@ public class RutaController implements Initializable {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmar Eliminación");
         confirmacion.setHeaderText("Eliminar Ruta: " + rutaSeleccionada.getNombreRuta());
-        confirmacion.setContentText("¿Está seguro de que desea eliminar esta ruta?\nEsto también eliminará la ruta inversa.");
+        confirmacion.setContentText("¿Está seguro de que desea eliminar esta ruta?.");
 
         if (confirmacion.showAndWait().get() == ButtonType.OK) {
             // Obtener id de Origen y Destino
@@ -165,7 +165,7 @@ public class RutaController implements Initializable {
             if (crudInstancia.eliminarRuta(idOrigen, idDestino)) {
                 // Refrescar la tabla y limpiar
                 cargarDatos(); // Recargar todos los datos para remover ambas rutas
-                mostrarAlerta("Éxito", "La ruta fue eliminada y su inversa ha sido removida.", Alert.AlertType.INFORMATION);
+                mostrarAlerta("Éxito", "La ruta fue eliminada.", Alert.AlertType.INFORMATION);
                 mostrarDetallesRuta(null); // Limpia y deselecciona, restablece el formulario
             } else {
                 mostrarAlerta("Error", "No se pudo eliminar la ruta. Verifique los datos.", Alert.AlertType.ERROR);
@@ -207,7 +207,7 @@ public class RutaController implements Initializable {
         if (crudInstancia.modificarRuta(origenExistente, destinoExistente, rutaActualizada)) {
             // Refrescar la tabla y limpiar
             cargarDatos(); // Recargar todos los datos para incluir la ruta inversa modificada
-            mostrarAlerta("Éxito", "Ruta " + idExistente + " actualizada correctamente (y su inversa).", Alert.AlertType.INFORMATION);
+            mostrarAlerta("Éxito", "Ruta " + idExistente + " actualizada correctamente.", Alert.AlertType.INFORMATION);
             mostrarDetallesRuta(null); // Limpia y deselecciona, restablece el formulario
         } else {
             mostrarAlerta("Error", "No se pudo actualizar la ruta.", Alert.AlertType.ERROR);
@@ -241,7 +241,7 @@ public class RutaController implements Initializable {
             // El CRUD guarda la ruta y su inversa. Debemos recargar la tabla para mostrar ambas.
             nextRouteId++;
             cargarDatos();
-            mostrarAlerta("Registro con éxito", "Ruta " + nombreRuta + " Registrada Correctamente (y su inversa).", Alert.AlertType.INFORMATION);
+            mostrarAlerta("Registro con éxito", "Ruta " + nombreRuta + " Registrada Correctamente.", Alert.AlertType.INFORMATION);
             limpiarCampos();
         } else {
             mostrarAlerta("Error de Registro", "Asegúrese que las paradas de Origen/Destino existan y la ruta no esté duplicada.", Alert.AlertType.WARNING);
@@ -270,7 +270,6 @@ public class RutaController implements Initializable {
         colCosto.setCellValueFactory(param -> param.getValue().costoRutaProperty());
         colTransbordos.setCellValueFactory(param -> param.getValue().cantidadTransbordoProperty());
         colTiempo.setCellValueFactory(param -> param.getValue().tiempoViajeProperty());
-
         colParadaOrigen.setCellValueFactory(param -> param.getValue().origenRutaProperty());
         colParadaDestino.setCellValueFactory(param -> param.getValue().destinoRutaProperty());
     }
