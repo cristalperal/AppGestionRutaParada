@@ -111,13 +111,14 @@ public class MenuPController implements Initializable {
 
     }
 
+    // Objetivo: Mostrar en los paneles las rutas y paradas activas
     private void MostrarRutasParadasActivas() {
         // Mostrar la cantidad de paradas y rutas activas
         int totalParadas = crudInstancia.paradasActivas();
         int totalRutas = crudInstancia.rutasActivas();
         // formateando como String
-        lblParadasActivas.setText(String.valueOf("00"+ totalParadas));
-        lblRutasActivas.setText(String.valueOf("00"+totalRutas));
+        lblParadasActivas.setText(String.valueOf("00" + totalParadas));
+        lblRutasActivas.setText(String.valueOf("00" + totalRutas));
     }
 
     // Objetivo: Calcular las rutas por los diferentes criterios
@@ -144,7 +145,7 @@ public class MenuPController implements Initializable {
             limpiarCamposResultados();
             pnlResultados.setVisible(false);
             mostrarAlerta("Ruta No Disponible", "No se pudo encontrar ninguna ruta que conecte \n" + nombreOrigen + " con " + nombreDestino, Alert.AlertType.INFORMATION);
-            return; // Detener la ejecución de la función
+            return;
         }
 
         //hacer visible el panel de mostrar los resultados
@@ -210,7 +211,7 @@ public class MenuPController implements Initializable {
         }
     }
 
-     //Objetivo:  Suma las distancias, tiempos, costos y cuenta los tramos de la ruta.
+    //Objetivo: Suma las distancias, tiempos, costos y cuenta los tramos de la ruta.
     private MejorCamino CalcularMejoresCaminos(List<Ruta> camino) {
         MejorCamino mejor = new MejorCamino();
 
@@ -277,7 +278,6 @@ public class MenuPController implements Initializable {
         pnlResultados.setVisible(false);
     }
 
-
     // Metodos para Abrir las ventanas de parada y ruta desde el menu principal
     @FXML
     public void AbrirGestionParada(ActionEvent actionEvent) {
@@ -301,7 +301,6 @@ public class MenuPController implements Initializable {
         for (Parada p : paradas) {
             nom.add(p.getNombreParada());
         }
-        // Asignar la lista a ambos ComboBoxes
         cmboxOrigen.setItems(nom);
         cmboxDestino.setItems(nom);
     }
@@ -327,7 +326,6 @@ public class MenuPController implements Initializable {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            //  informar al usuario si falla la carga.
             System.err.println("Error al cargar la ventana FXML: " + fxml);
         }
     }

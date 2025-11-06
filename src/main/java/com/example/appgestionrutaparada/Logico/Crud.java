@@ -1,4 +1,5 @@
 package com.example.appgestionrutaparada.Logico;
+
 import com.example.appgestionrutaparada.Modelo.Grafo;
 import com.example.appgestionrutaparada.Modelo.Parada;
 import com.example.appgestionrutaparada.Modelo.Ruta;
@@ -26,7 +27,7 @@ public class Crud {
         // Creando las paradas (nodos)
         List<Parada> paradasIniciales = List.of(
                 new Parada("P001", "Terminal Principal", "Av. Central, #100", "Autobus", "No Visitada"),
-                new Parada("P002", "Parque Industrial", "C/ Norte, Esq. A", "Carro",  " No Visitada"),
+                new Parada("P002", "Parque Industrial", "C/ Norte, Esq. A", "Carro", " No Visitada"),
                 new Parada("P003", "Centro Comercial", "Bulevar 50", "Autobus", " No Visitada"),
                 new Parada("P004", "Estación Tren", "C/ Ferrocarril", "Autobus", "NO Visitada"),
                 new Parada("P005", "Universidad APEC", "Zona Universitaria", "Motocicleta", "No Visitada"),
@@ -51,6 +52,7 @@ public class Crud {
 
         return paradas;
     }
+
     public List<List<Ruta>> getRuta() {
 
         return rutas;
@@ -87,7 +89,7 @@ public class Crud {
     }
 
 
-    //Objetivo:
+    //Objetivo: Buscar si existe una parada para eliminarla y eliminar las rutas asociadas
     public boolean eliminarParada(String idParada) {
         int index = buscarIndexParada(idParada);
         if (index != -1) {
@@ -105,7 +107,7 @@ public class Crud {
     }
 
 
-    //Objetivo:
+    //Objetivo: Actualizar las paradas
     public boolean modificarParada(String idParada, Parada nuevaParada) {
         int index = buscarIndexParada(idParada);
         if (index != -1) {
@@ -127,15 +129,15 @@ public class Crud {
 
     //Métodos de Ruta
 
-    //Objetivo:
-    public boolean agregarRuta(Ruta r){
+    //Objetivo: Agregar una ruta a la lista, tambien se obtiene la parada de origen y destino
+    public boolean agregarRuta(Ruta r) {
         //Verificar antes si existen las Paradas antes de agregar/crear una Ruta
         int origen = buscarIndexParada(r.getOrigenRuta());
         int destino = buscarIndexParada(r.getDestinoRuta());
 
-        if(origen != -1 && destino != -1) {
+        if (origen != -1 && destino != -1) {
             List<Ruta> listaRutas = rutas.get(origen);
-            if(buscarIndexRuta(listaRutas, r.getDestinoRuta()) == -1) {
+            if (buscarIndexRuta(listaRutas, r.getDestinoRuta()) == -1) {
                 listaRutas.add(r);
                 return true;
             }
@@ -154,22 +156,22 @@ public class Crud {
         return -1;
     }
 
-    //Objetivo:
-    public boolean eliminarRuta(String idOrigenParada, String idDestinoParada){
+    //Objetivo: Elimina una ruta por su index
+    public boolean eliminarRuta(String idOrigenParada, String idDestinoParada) {
         int index = buscarIndexParada(idOrigenParada);
-        if(index != -1){
+        if (index != -1) {
             return rutas.get(index).removeIf(r -> r.getDestinoRuta().equals(idDestinoParada));
         }
         return false;
     }
 
-    //Objetivo:
-    public boolean modificarRuta(String idOrigenParada, String idDestinoParada, Ruta nuevaRuta){
+    //Objetivo: Actualiza las Rutas por el index
+    public boolean modificarRuta(String idOrigenParada, String idDestinoParada, Ruta nuevaRuta) {
         int index = buscarIndexParada(idOrigenParada);
-        if(index != -1){
+        if (index != -1) {
             List<Ruta> listaRutas = rutas.get(index);
-            for(int i = 0; i < listaRutas.size(); i++) {
-                if(listaRutas.get(i).getDestinoRuta().equals(idDestinoParada)) {
+            for (int i = 0; i < listaRutas.size(); i++) {
+                if (listaRutas.get(i).getDestinoRuta().equals(idDestinoParada)) {
                     listaRutas.set(i, nuevaRuta);
                     return true;
                 }
@@ -188,10 +190,11 @@ public class Crud {
 
 
     // Métodos para la información dinámica del menú
-    public int paradasActivas(){
+    public int paradasActivas() {
         return paradas.size();
     }
-    public int rutasActivas(){
+
+    public int rutasActivas() {
         return rutas.size();
     }
 }

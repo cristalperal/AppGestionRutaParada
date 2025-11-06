@@ -15,20 +15,33 @@ import java.util.ResourceBundle;
 
 public class ParadaController implements Initializable {
 
-    @FXML private TableView<Parada> tblParadas;
-    @FXML private TableColumn<Parada, String> colID;
-    @FXML private TableColumn<Parada, String> colNombre;
-    @FXML private TableColumn<Parada, String> colDireccion;
-    @FXML private TableColumn<Parada, String> colTipoT;
+    @FXML
+    private TableView<Parada> tblParadas;
+    @FXML
+    private TableColumn<Parada, String> colID;
+    @FXML
+    private TableColumn<Parada, String> colNombre;
+    @FXML
+    private TableColumn<Parada, String> colDireccion;
+    @FXML
+    private TableColumn<Parada, String> colTipoT;
     // para poder conectar los elementos con el formulario
-    @FXML private TextField txtCod;         // fx:id="txtCod"
-    @FXML private TextField txtNombrePa;    // fx:id="txtNombrePa"
-    @FXML private TextField txtDireccion;   // fx:id="txtDireccion"
-    @FXML private ComboBox<String> cmboxTipoT; // fx:id="cmboxTipoT"
-    @FXML private Button btnGuardar;    // fx:id="btnGuardar"
-    @FXML private Button btnEliminar;
-    @FXML private Button btnActualizar;
-    @FXML private Button btnCancelarAccion;
+    @FXML
+    private TextField txtCod;         // fx:id="txtCod"
+    @FXML
+    private TextField txtNombrePa;    // fx:id="txtNombrePa"
+    @FXML
+    private TextField txtDireccion;   // fx:id="txtDireccion"
+    @FXML
+    private ComboBox<String> cmboxTipoT; // fx:id="cmboxTipoT"
+    @FXML
+    private Button btnGuardar;    // fx:id="btnGuardar"
+    @FXML
+    private Button btnEliminar;
+    @FXML
+    private Button btnActualizar;
+    @FXML
+    private Button btnCancelarAccion;
 
     private Crud crudInstancia;// instancia del CRUD para poder usarlo
     private ObservableList<Parada> listaParadasO; // ObservableList se usa para poder refrezcar la tabla al cambiar algun elemento, es similar a ArrayList
@@ -140,7 +153,7 @@ public class ParadaController implements Initializable {
             mostrarAlerta("Error", "Seleccione una parada de la tabla para actualizar.", Alert.AlertType.WARNING);
             return;
         }
-       // guardar los nuevos datos
+        // guardar los nuevos datos
         String idExistente = paradaSeleccionada.getIdParada(); // El ID NO cambia
         String nuevoNombre = txtNombrePa.getText();
         String nuevaDireccion = txtDireccion.getText();
@@ -178,21 +191,21 @@ public class ParadaController implements Initializable {
         String direccionParada = txtDireccion.getText();
         String tipoT = cmboxTipoT.getValue();
 
-        if(codParada.isEmpty() || nombreParada.isEmpty() || direccionParada.isEmpty() || tipoT == null){
+        if (codParada.isEmpty() || nombreParada.isEmpty() || direccionParada.isEmpty() || tipoT == null) {
             mostrarAlerta("Error de Datos", "Debe completar todos los campos para registrar la parada.", Alert.AlertType.ERROR);
             return;
         }
         // crear el objeto
-        Parada nuevaparada = new Parada(codParada,nombreParada,direccionParada,tipoT, "No Visitada" );
+        Parada nuevaparada = new Parada(codParada, nombreParada, direccionParada, tipoT, "No Visitada");
 
         // para guardar la informacion
-        if(crudInstancia.agregarParada(nuevaparada)){
+        if (crudInstancia.agregarParada(nuevaparada)) {
             // si se agrego correctamente se añade a la lista
             nextRouteId++;
             listaParadasO.add(nuevaparada);
             mostrarAlerta("Registro con éxito", "Parada " + nombreParada + " Registrada Correctamente .", Alert.AlertType.INFORMATION);
             limpiarCampos();
-        }else{
+        } else {
             mostrarAlerta("Error de Registro", "La parada con código " + codParada + " ya existe.", Alert.AlertType.WARNING);
         }
     }
