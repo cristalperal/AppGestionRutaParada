@@ -18,8 +18,6 @@ public class Dijkstra {
         //Mapas para guardar la distancia y el anterior
         Map<String, Integer> distancia = new HashMap<>();
         Map<String, String> anterior = new HashMap<>();
-        //Usamos un conjunto para guardar las paradas y que no se repitan
-        Set<String> visitados = new HashSet<>();
         //Cola de prioridad, para poder ordenar la lista de menor a mayor distancia
         PriorityQueue<String> cola = new PriorityQueue<>(Comparator.comparingInt(distancia::get));
 
@@ -36,16 +34,6 @@ public class Dijkstra {
 
         while(!cola.isEmpty()) {
             String actual = cola.poll();
-            
-            
-            // si una parada ya es visitada se salta
-            if(!visitados.add(actual)) {
-                continue;
-            }
-            // Si ya llega al destino, termina
-            if(actual.equals(idDestino)) {
-                break;
-            }
             int indexActual = buscarIndexParada(paradas,actual);
             
             if(indexActual == -1) {
@@ -55,25 +43,22 @@ public class Dijkstra {
             // Recorrer las rutas por el index actual 
             for(Ruta ruta : rutas.get(indexActual)) {
                 String vecino = ruta.getDestinoRuta();
-                int peso = obtenerPeso(ruta,criterio);
+                int peso = obtenerPeso(ruta, criterio);
 
-                //Si no esta visitado y contiene el destino
-                if(!visitados.contains(vecino)) {
-                    int nuevaDistancia = distancia.get(actual) + peso;
-                    if(nuevaDistancia < distancia.get(vecino)) {
-                        distancia.put(vecino, nuevaDistancia);
-                        cola.add(vecino);
-                    }
+                if (distancia.get(actual) + peso < distancia.get(vecino)) {
+                    distancia.put(vecino, distancia.get(actual) + peso);
+                    anterior.put(vecino, actual);
+                    cola.add(vecino);
                 }
             }
         }
-        return reconstruirCamino(grafo, anterior,idOrigen, idOrigen);
+        return reconstruirCamino(grafo, anterior,idOrigen, idDestino);
     }
 
     private List<Ruta> reconstruirCamino(Grafo grafo, Map<String, String> anterior, String idOrigen, String idDestino) {
 
         List<Ruta> camino = new LinkedList<>();
-        if(!anterior.containsKey(idOrigen)) {
+        if(!anterior.containsKey(idDestino)) {
             return camino;
         }
         String actual = idDestino;

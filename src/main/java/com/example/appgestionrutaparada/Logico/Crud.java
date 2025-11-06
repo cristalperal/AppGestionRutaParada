@@ -17,15 +17,46 @@ public class Crud {
     public Crud() {
         paradas = new LinkedList<>();
         rutas = new LinkedList<>();
+        cargarDatosIniciales();
+    }
+
+    //Objetivo: cargar datos para probar la app
+    private void cargarDatosIniciales() {
+
+        // Creando las paradas (nodos)
+        List<Parada> paradasIniciales = List.of(
+                new Parada("P001", "Terminal Principal", "Av. Central, #100", "Autobus", "No Visitada"),
+                new Parada("P002", "Parque Industrial", "C/ Norte, Esq. A", "Carro",  " No Visitada"),
+                new Parada("P003", "Centro Comercial", "Bulevar 50", "Autobus", " No Visitada"),
+                new Parada("P004", "Estación Tren", "C/ Ferrocarril", "Autobus", "NO Visitada"),
+                new Parada("P005", "Universidad APEC", "Zona Universitaria", "Motocicleta", "No Visitada"),
+                new Parada("P006", "Playa Dorada", "Ctra. Costera", "Autobus", "No Visitada")
+        );
+
+        for (Parada p : paradasIniciales) {
+            agregarParada(p); // Agregan las paradas
+        }
+
+        agregarRuta(new Ruta("R001", "Ruta A", 10, 50.0f, 1, 15, "P001", "P002"));
+        agregarRuta(new Ruta("R002", "Ruta B", 5, 25.0f, 0, 8, "P002", "P003"));
+        agregarRuta(new Ruta("R003", "Ruta C", 25, 120.0f, 2, 35, "P001", "P004"));
+        agregarRuta(new Ruta("R004", "Ruta D", 7, 40.0f, 0, 10, "P003", "P005"));
+        agregarRuta(new Ruta("R005", "Ruta E", 12, 60.0f, 3, 20, "P004", "P005"));
+        agregarRuta(new Ruta("R006", "Ruta F", 30, 150.0f, 1, 45, "P005", "P006"));
+        agregarRuta(new Ruta("R007", "Ruta G", 15, 80.0f, 0, 20, "P001", "P003"));
+
     }
 
     public List<Parada> getParada() {
+
         return paradas;
     }
     public List<List<Ruta>> getRuta() {
+
         return rutas;
     }
 
+    //Patron singleton
     public static Crud getInstancia() {
         if (instancia == null) {
             instancia = new Crud();
@@ -34,7 +65,7 @@ public class Crud {
     }
 
     //Métodos de Parada
-    //Objetivo:
+    //Objetivo: Agregar una parada a la lista
     public boolean agregarParada(Parada p) {
         if (buscarIndexParada(p.getIdParada()) == -1) {
             paradas.add(p);
@@ -82,6 +113,16 @@ public class Crud {
             return true;
         }
         return false;
+    }
+
+    // Objetivo: Buscar el ID de una Parada a partir de su nombre
+    public String buscarIdPorNombre(String nombreParada) {
+        for (Parada p : paradas) {
+            if (p.getNombreParada().equals(nombreParada)) {
+                return p.getIdParada();
+            }
+        }
+        return null; // Si no se encuentra
     }
 
     //Métodos de Ruta
@@ -135,5 +176,22 @@ public class Crud {
             }
         }
         return false;
+    }
+
+    // Obtener el Grafo completo
+    public Grafo obtenerGrafo() {
+        Grafo grafo = new Grafo();
+        grafo.setParada(this.paradas);
+        grafo.setRuta(this.rutas);
+        return grafo;
+    }
+
+
+    // Métodos para la información dinámica del menú
+    public int paradasActivas(){
+        return paradas.size();
+    }
+    public int rutasActivas(){
+        return rutas.size();
     }
 }
