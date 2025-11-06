@@ -7,7 +7,7 @@ import com.example.appgestionrutaparada.Modelo.Ruta;
 
 import java.util.*;
 
-//Algoritmo para encontrar la ruta más corta de un origen y destino especificados en términos de distancia
+//Algoritmo para encontrar la ruta más corta de un origen y destino especificados
 public class Dijkstra {
 
     public List<Ruta> calcularRutaCorta(Grafo grafo, String idOrigen, String idDestino, String criterio) {
@@ -24,13 +24,11 @@ public class Dijkstra {
         for (Parada parada : paradas) {
             distancia.put(parada.getIdParada(), Integer.MAX_VALUE);
         }
-
         // El nodo inicial
         distancia.put(idOrigen, 0);
         cola.add(idOrigen);
 
         // Algoritmo principal
-
         while (!cola.isEmpty()) {
             String actual = cola.poll();
             int indexActual = buscarIndexParada(paradas, actual);
