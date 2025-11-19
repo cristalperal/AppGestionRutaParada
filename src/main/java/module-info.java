@@ -6,7 +6,9 @@ module com.example.appgestionrutaparada {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires javafx.base;
+    requires java.sql;
 
     opens com.example.appgestionrutaparada.Controlador to javafx.fxml;
     exports com.example.appgestionrutaparada;
+    exports com.example.appgestionrutaparada.DAO;
 }

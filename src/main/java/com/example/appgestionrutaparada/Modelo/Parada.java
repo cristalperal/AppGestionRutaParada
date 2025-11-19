@@ -3,13 +3,26 @@ package com.example.appgestionrutaparada.Modelo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Objects;
+
 public class Parada {
     // StringProperty nos permite actualizar mas rapido las tablas
-    private  StringProperty idParada;
+    private StringProperty idParada;
     private StringProperty nombreParada;
     private StringProperty direccionParada;
     private StringProperty tipoTransporte;
     private StringProperty estadoParada; //Visitada o no visitada
+
+    //Para la base de datos
+    public Parada() {
+    }
+
+    public Parada(StringProperty nombreParada, StringProperty direccionParada, StringProperty tipoTransporte, StringProperty estadoParada) {
+        this.nombreParada = nombreParada;
+        this.direccionParada = direccionParada;
+        this.tipoTransporte = tipoTransporte;
+        this.estadoParada = estadoParada;
+    }
 
     public Parada(String idParada, String nombreParada, String direccionParada, String tipoTransporte, String estadoParada) {
         this.idParada = new SimpleStringProperty(idParada);;
@@ -82,4 +95,15 @@ public class Parada {
         this.estadoParada.set(estadoParada);
     }
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Parada parada = (Parada) o;
+//        return Objects.equals(idParada, parada.idParada);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hashCode(idParada);
+//    }
 }
