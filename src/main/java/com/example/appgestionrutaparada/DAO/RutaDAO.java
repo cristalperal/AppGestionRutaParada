@@ -59,13 +59,20 @@ public class RutaDAO {
         }
     }
 
-    //Para eliminar un campo
-    public void delete(String idRuta) {
-        final String sql = "DELETE FROM ruta WHERE idRuta = ?";
+
+    /**
+     * Elimina rutas basadas en una Parada ID (sea origen o destino).
+     * Requerido por Crud.eliminarParada() para mantener la integridad del Grafo.
+     * @param idParada ID de la parada a eliminar.
+     */
+    public void deleteRutasByParadaId(String idParada) {
+        // La consulta elimina rutas que tienen la parada como origen O como destino
+        final String sql = "DELETE FROM ruta WHERE origenRuta = ? OR destinoRuta = ?";
 
         try (Connection connection = ConexionBd.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, idRuta);
+            preparedStatement.setString(1, idParada); // Para origenRuta
+            preparedStatement.setString(2, idParada); // Para destinoRuta
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,5 +144,119 @@ public class RutaDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    // ------------------------------------
+    // 💡 MÉTODOS AÑADIDOS (Para la lógica del Grafo/Crud)
+    // ------------------------------------
+
+    /**
+     * Busca rutas que salen de una parada específica. Requerido por Crud.getRuta().
+     * @param idOrigen ID de la parada de origen.
+     * @return Lista de rutas salientes.
+     */
+    public List<Ruta> findByOrigen(String idOrigen) {
+        List<Ruta> list = new ArrayList<>();
+        final String sql = "SELECT * FROM ruta WHERE origenRuta = ?";
+
+        try (Connection connection = ConexionBd.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, idOrigen);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                list.add(new Ruta(
+                        resultSet.getString("idRuta"),
+                        resultSet.getString("nombreRuta"),
+                        resultSet.getInt("distanciaRuta"),
+                        resultSet.getFloat("costoRuta"),
+                        resultSet.getInt("cantidadTransbordo"),
+                        resultSet.getInt("tiempoViaje"),
+                        resultSet.getString("origenRuta"),
+                        resultSet.getString("destinoRuta")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    /**
+     * Verifica la existencia de una ruta por su clave compuesta (Origen y Destino). Requerido por Crud.agregarRuta().
+     * @param idOrigen ID de la parada de origen.
+     * @param idDestino ID de la parada de destino.
+     * @return true si la ruta ya existe.
+     */
+    public boolean existsByOAndD(String idOrigen, String idDestino) {
+        final String sql = "SELECT 1 FROM ruta WHERE origenRuta = ? AND destinoRuta = ?";
+        try (Connection conn = ConexionBd.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, idOrigen);
+            ps.setString(2, idDestino);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Elimina una ruta por su clave compuesta (Origen y Destino). Requerido por Crud.eliminarRuta().
+     * @param idOrigen ID de la parada de origen.
+     * @param idDestino ID de la parada de destino.
+     */
+    public void delete(String idOrigen, String idDestino) {
+        final String sql = "DELETE FROM ruta WHERE origenRuta = ? AND destinoRuta = ?";
+
+        try (Connection connection = ConexionBd.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, idOrigen);
+            preparedStatement.setString(2, idDestino);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Cuenta el número total de rutas. Requerido por Crud.rutasActivas().
+     * @return Número total de rutas.
+     */
+    public int count() {
+        final String sql = "SELECT COUNT(*) AS total FROM ruta";
+        try (Connection conn = ConexionBd.getConnection();
+             Statement statement = conn.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int findMaxNumericId() {
+        // La consulta SQL extrae el sufijo numérico (ej: "015" de "R015") y lo convierte a entero para encontrar el máximo.
+        final String sql = "SELECT MAX(CAST(SUBSTRING(idRuta, 2) AS INTEGER)) AS max_id FROM ruta";
+        int maxId = 0; // Inicializamos la variable
+
+        try (Connection conn = ConexionBd.getConnection();
+             Statement statement = conn.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+
+            if (rs.next()) {
+                // Si la tabla está vacía, MAX() retorna NULL, getInt() retorna 0.
+                // Si hay datos, retorna el ID máximo.
+                maxId = rs.getInt("max_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return maxId;
     }
 }

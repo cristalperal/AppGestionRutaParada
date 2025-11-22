@@ -72,6 +72,13 @@ public class ParadaController implements Initializable {
         btnEliminar.setOnAction(this::eliminarParada);
         btnCancelarAccion.setOnAction(this::cancelarAccion);
 
+        /*
+        btnGuardar.setOnAction(this::guardarParada);
+        btnActualizar.setOnAction(this::ModificarParada);
+        btnEliminar.setOnAction(this::eliminarParada);
+        btnCancelarAccion.setOnAction(this::cancelarAccion); */
+
+
         // Habilitar la funcionalidad de CLIC en la tabla
         tblParadas.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> mostrarDetallesParada(newValue)
@@ -256,12 +263,9 @@ public class ParadaController implements Initializable {
     }
 
     private void setInitialRouteId() {
-        // Esto asegura que, al iniciar, el ID tome el valor del último elemento + 1.
-        if (listaParadasO != null && !listaParadasO.isEmpty()) {
-            nextRouteId = listaParadasO.size() + 1;
-        } else {
-            nextRouteId = 1;
-        }
+// Asume que ParadaDAO tiene el método findMaxNumericId()
+        int maxIdInDB = crudInstancia.getMaxIdParada(); // <--- Requiere este método en Crud
+        nextRouteId = maxIdInDB + 1;
         txtCod.setText(generateNextRouteId());
     }
 

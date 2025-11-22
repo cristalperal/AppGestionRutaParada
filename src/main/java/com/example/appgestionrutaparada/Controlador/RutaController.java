@@ -312,13 +312,9 @@ public class RutaController implements Initializable {
     }
 
     private void setInitialRouteId() {
-        // Esto asegura que, al iniciar, el ID tome el valor del último elemento + 1.
-        if (listaRutasO != null && !listaRutasO.isEmpty()) {
-            // Usamos el tamaño de la lista como punto de partida.
-            nextRouteId = listaRutasO.size() + 1;
-        } else {
-            nextRouteId = 1;
-        }
+        // Asume que Crud tiene el método getMaxIdRuta() que llama a RutaDAO.findMaxNumericId()
+        int maxIdInDB = crudInstancia.getMaxIdRuta();
+        nextRouteId = maxIdInDB + 1;
         txtCod.setText(generateNextRouteId());
     }
 

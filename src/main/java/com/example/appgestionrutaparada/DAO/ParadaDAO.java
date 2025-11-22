@@ -1,6 +1,7 @@
 package com.example.appgestionrutaparada.DAO;
 
 import com.example.appgestionrutaparada.Modelo.Parada;
+import com.example.appgestionrutaparada.Modelo.Ruta;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -125,5 +126,63 @@ public class ParadaDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Parada findByName(String nombreParada) {
+        final String sql = "SELECT * FROM parada WHERE nombreParada = ?";
+        try (Connection conn = ConexionBd.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, nombreParada);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                // Si se encuentra, retorna el objeto Parada
+                return new Parada(
+                        rs.getString("idParada"),
+                        rs.getString("nombreParada"),
+                        rs.getString("direccionParada"),
+                        rs.getString("tipoTransporte"),
+                        rs.getString("estadoParada")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int count() {
+        final String sql = "SELECT COUNT(*) AS total FROM parada";
+        try (Connection conn = ConexionBd.getConnection();
+             Statement statement = conn.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // Retorna 0 si hay error o la tabla está vacía
+    }
+
+    public int findMaxNumericId() {
+// La consulta SQL extrae el sufijo numérico (ej: "015" de "P015") y lo convierte a entero para encontrar el máximo.
+        // NOTA: Esta consulta es específica para PostgreSQL.
+        final String sql = "SELECT MAX(CAST(SUBSTRING(idParada, 2) AS INTEGER)) AS max_id FROM parada";
+        int maxId = 0; // Inicializamos la variable
+
+        try (Connection conn = ConexionBd.getConnection();
+             Statement statement = conn.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+
+            if (rs.next()) {
+                // Si la tabla está vacía, MAX() retorna NULL, en Java getInt() retorna 0.
+                // Si hay datos, retorna el ID máximo.
+                maxId = rs.getInt("max_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Si hay un error, maxId permanece en 0, lo cual es seguro para iniciar la secuencia en 1.
+        }
+        return maxId;
     }
 }
