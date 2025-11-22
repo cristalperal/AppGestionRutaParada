@@ -66,6 +66,7 @@ public class ParadaDAO {
         }
     }
 
+    //Para listar
     public List<Parada> findAll() {
         List<Parada> list = new ArrayList<>();
 
@@ -89,5 +90,40 @@ public class ParadaDAO {
             e.printStackTrace();
         }
         return list;
+    }
+
+    //Para verificar existencia
+    public boolean exists(String idParada) {
+        final String sql = "SELECT 1 FROM parada WHERE idParada = ?";
+        try (Connection conn = ConexionBd.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, idParada);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Parada findById(String idParada) {
+        final String sql = "SELECT * FROM parada WHERE idParada = ?";
+        try (Connection conn = ConexionBd.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, idParada);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Parada(
+                        rs.getString("idParada"),
+                        rs.getString("nombreParada"),
+                        rs.getString("direccionParada"),
+                        rs.getString("tipoTransporte"),
+                        rs.getString("estadoParada")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

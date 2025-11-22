@@ -6,7 +6,7 @@ public class Ruta {
     private StringProperty idRuta;
     private StringProperty nombreRuta;
     private IntegerProperty distanciaRuta;
-    private FloatProperty costoRuta; // FloatProperty es apropiado aquí
+    private FloatProperty costoRuta;
     private IntegerProperty cantidadTransbordo;
     private IntegerProperty tiempoViaje;
     private StringProperty origenRuta;
