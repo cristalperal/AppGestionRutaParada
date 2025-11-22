@@ -31,6 +31,7 @@ public class Crud {
     public List<Parada> getParada() {
         return paradaDAO.findAll();
     }
+
     public List<List<Ruta>> getRuta() {
         List<Parada> paradas = paradaDAO.findAll(); // Obtener todos los nodos
         List<List<Ruta>> listaDeAdyacencia = new LinkedList<>();
@@ -49,17 +50,15 @@ public class Crud {
         if (paradaDAO.exists(p.getIdParada())) {
             return false;
         }
-        paradaDAO.save(p); // Llama al DAO
+        paradaDAO.save(p);
         return true;
     }
-
 
     //Objetivo: Buscar si existe una parada para eliminarla y eliminar las rutas asociadas
     public boolean eliminarParada(String idParada) {
         if (paradaDAO.exists(idParada)) {
-            // 1. Eliminar Rutas que salen/llegan de esa parada (Lógica de Negocio)
-            rutaDAO.deleteRutasByParadaId(idParada); // 🚨 Necesita un nuevo método en RutaDAO
-            // 2. Eliminar la Parada
+            // Eliminar Rutas que salen/llegan de esa parada
+            rutaDAO.deleteRutasByParadaId(idParada);
             paradaDAO.delete(idParada);
             return true;
         }
@@ -77,7 +76,7 @@ public class Crud {
 
     // Objetivo: Buscar el ID de una Parada a partir de su nombre
     public String buscarIdPorNombre(String nombreParada) {
-        Parada p = paradaDAO.findByName(nombreParada); // 🚨 Necesita un nuevo método en ParadaDAO
+        Parada p = paradaDAO.findByName(nombreParada);
         return (p != null) ? p.getIdParada() : null;
     }
 
@@ -85,25 +84,22 @@ public class Crud {
 
     //Objetivo: Agregar una ruta a la lista, tambien se obtiene la parada de origen y destino
     public boolean agregarRuta(Ruta r) {
-        // 1. Verificar si existen las Paradas (Lógica de Negocio)
         if (!paradaDAO.exists(r.getOrigenRuta()) || !paradaDAO.exists(r.getDestinoRuta())) {
             return false; // No existen las paradas
         }
-        // 2. Verificar si ya existe la Ruta (Lógica de Negocio)
-        if (rutaDAO.existsByOAndD(r.getOrigenRuta(), r.getDestinoRuta())) { // 🚨 Necesita un nuevo método en RutaDAO
+        if (rutaDAO.existsByOAndD(r.getOrigenRuta(), r.getDestinoRuta())) {
             return false;
         }
-        // 3. Guardar en la DB
         rutaDAO.save(r);
         return true;
     }
 
 
     //Objetivo: Elimina una ruta por su index
-    public boolean eliminarRuta(String idOrigenParada, String idDestinoParada) {// Verificar si la ruta existe usando el DAO
+    public boolean eliminarRuta(String idOrigenParada, String idDestinoParada) {
+        // Verificar si la ruta existe usando el DAO
         if (rutaDAO.existsByOAndD(idOrigenParada, idDestinoParada)) {
-            // Llamar al método del DAO para eliminar por Origen y Destino
-            rutaDAO.delete(idOrigenParada, idDestinoParada); // Requiere delete(idOrigen, idDestino) en RutaDAO
+            rutaDAO.delete(idOrigenParada, idDestinoParada);
             return true;
         }
         return false;
@@ -113,8 +109,6 @@ public class Crud {
     public boolean modificarRuta(String idOrigenParada, String idDestinoParada, Ruta nuevaRuta) {
         // Verificar si la ruta existe
         if (rutaDAO.existsByOAndD(idOrigenParada, idDestinoParada)) {
-            // Nota: Tu implementación de RutaDAO.update usa idRuta,
-            // si la ruta se identifica por idRuta, esto funcionará:
             rutaDAO.update(nuevaRuta);
             return true;
         }
@@ -140,12 +134,10 @@ public class Crud {
     }
 
     public int getMaxIdParada() {
-        // Asume que ParadaDAO tiene este método
         return paradaDAO.findMaxNumericId();
     }
 
     public int getMaxIdRuta() {
-        // Asume que RutaDAO tiene este método implementado
         return rutaDAO.findMaxNumericId();
     }
 }

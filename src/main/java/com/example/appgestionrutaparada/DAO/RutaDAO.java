@@ -60,13 +60,9 @@ public class RutaDAO {
     }
 
 
-    /**
-     * Elimina rutas basadas en una Parada ID (sea origen o destino).
-     * Requerido por Crud.eliminarParada() para mantener la integridad del Grafo.
-     * @param idParada ID de la parada a eliminar.
-     */
+    //Elimina rutas basadas en una Parada ID .
     public void deleteRutasByParadaId(String idParada) {
-        // La consulta elimina rutas que tienen la parada como origen O como destino
+        // La consulta elimina rutas que tienen la parada como origen o como destino
         final String sql = "DELETE FROM ruta WHERE origenRuta = ? OR destinoRuta = ?";
 
         try (Connection connection = ConexionBd.getConnection()) {
@@ -79,7 +75,7 @@ public class RutaDAO {
         }
     }
 
-    //Para listar
+    //Para listar (no se esta usando)
     public List<Ruta> findAll() {
         List<Ruta> list = new ArrayList<>();
 
@@ -108,7 +104,7 @@ public class RutaDAO {
         return list;
     }
 
-    //Para verificar existencia
+    //Para verificar existencia (no se esta usando)
     public boolean exists(String idRuta) {
         final String sql = "SELECT 1 FROM ruta WHERE idRuta = ?";
         try (Connection conn = ConexionBd.getConnection();
@@ -122,6 +118,7 @@ public class RutaDAO {
         }
     }
 
+    // buscar ruta por id
     public Ruta findById(String idRuta) {
         final String sql = "SELECT * FROM ruta WHERE idRuta = ?";
         try (Connection conn = ConexionBd.getConnection();
@@ -146,16 +143,7 @@ public class RutaDAO {
         return null;
     }
 
-
-    // ------------------------------------
-    // 💡 MÉTODOS AÑADIDOS (Para la lógica del Grafo/Crud)
-    // ------------------------------------
-
-    /**
-     * Busca rutas que salen de una parada específica. Requerido por Crud.getRuta().
-     * @param idOrigen ID de la parada de origen.
-     * @return Lista de rutas salientes.
-     */
+    //Busca rutas que salen de una parada específica
     public List<Ruta> findByOrigen(String idOrigen) {
         List<Ruta> list = new ArrayList<>();
         final String sql = "SELECT * FROM ruta WHERE origenRuta = ?";
@@ -183,13 +171,7 @@ public class RutaDAO {
         return list;
     }
 
-
-    /**
-     * Verifica la existencia de una ruta por su clave compuesta (Origen y Destino). Requerido por Crud.agregarRuta().
-     * @param idOrigen ID de la parada de origen.
-     * @param idDestino ID de la parada de destino.
-     * @return true si la ruta ya existe.
-     */
+    //Verifica la existencia de una ruta por su clave origen y destino
     public boolean existsByOAndD(String idOrigen, String idDestino) {
         final String sql = "SELECT 1 FROM ruta WHERE origenRuta = ? AND destinoRuta = ?";
         try (Connection conn = ConexionBd.getConnection();
@@ -204,11 +186,7 @@ public class RutaDAO {
         }
     }
 
-    /**
-     * Elimina una ruta por su clave compuesta (Origen y Destino). Requerido por Crud.eliminarRuta().
-     * @param idOrigen ID de la parada de origen.
-     * @param idDestino ID de la parada de destino.
-     */
+    //elimina una ruta
     public void delete(String idOrigen, String idDestino) {
         final String sql = "DELETE FROM ruta WHERE origenRuta = ? AND destinoRuta = ?";
 
@@ -222,10 +200,7 @@ public class RutaDAO {
         }
     }
 
-    /**
-     * Cuenta el número total de rutas. Requerido por Crud.rutasActivas().
-     * @return Número total de rutas.
-     */
+    //Cuenta el número total de rutas. Requerido por Crud.rutasActivas().
     public int count() {
         final String sql = "SELECT COUNT(*) AS total FROM ruta";
         try (Connection conn = ConexionBd.getConnection();

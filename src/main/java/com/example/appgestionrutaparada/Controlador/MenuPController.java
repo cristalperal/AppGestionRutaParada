@@ -323,11 +323,23 @@ public class MenuPController implements Initializable {
             // Centrar la nueva ventana en la pantalla
             stage.centerOnScreen();
             // Mostrar la ventana
-            stage.show();
+            stage.showAndWait();
+            // Una vez que la ventana de gestión se cierra, se ejecuta el refresco
+            refrescarDatosMenu();
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error al cargar la ventana FXML: " + fxml);
         }
+    }
+
+    private void refrescarDatosMenu() {
+        cargarOpcionesParada();
+        cmboxOrigen.getSelectionModel().clearSelection();
+        cmboxDestino.getSelectionModel().clearSelection();
+        MostrarRutasParadasActivas();
+        limpiarCamposResultados();
+        pnlGeneralNombre.setVisible(true);
+        pnlResultados.setVisible(false);
     }
 
     //Objetivo:  Método genérico para las alertas

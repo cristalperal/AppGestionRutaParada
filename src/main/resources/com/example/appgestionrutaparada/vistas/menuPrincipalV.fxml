@@ -10,32 +10,32 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="939.0" prefWidth="1415.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.MenuPController">
+<AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.MenuPController">
    <children>
-      <AnchorPane prefHeight="939.0" prefWidth="1415.0" style="-fx-background-color: #404258;">
+      <AnchorPane prefHeight="1004.0" prefWidth="1737.0" style="-fx-background-color: #404258;">
          <children>
-            <Pane fx:id="pnlGeneralNombre" layoutX="359.0" layoutY="77.0" prefHeight="442.0" prefWidth="1041.0" style="-fx-background-color: #474E68;">
+            <Pane fx:id="pnlGeneralNombre" layoutX="397.0" layoutY="79.0" prefHeight="419.0" prefWidth="1275.0" style="-fx-background-color: #474E68;">
                <children>
-                  <Label contentDisplay="CENTER" layoutX="414.0" layoutY="180.0" prefHeight="39.0" prefWidth="299.0" text="GeoParada" textFill="#f4f2f2">
+                  <Label contentDisplay="CENTER" layoutX="480.0" layoutY="175.0" prefHeight="39.0" prefWidth="299.0" text="GeoParada" textFill="#f4f2f2">
                      <font>
                         <Font name="Arial Bold" size="36.0" />
                      </font>
                   </Label>
-                  <Label contentDisplay="CENTER" layoutX="414.0" layoutY="229.0" prefHeight="21.0" prefWidth="482.0" text="El control total de tus paradas, al alcance de tu mano." textFill="#f4f2f2">
+                  <Label contentDisplay="CENTER" layoutX="480.0" layoutY="224.0" prefHeight="21.0" prefWidth="482.0" text="El control total de tus paradas, al alcance de tu mano." textFill="#f4f2f2">
                      <font>
                         <Font name="Arial Bold Italic" size="18.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="131.0" fitWidth="168.0" layoutX="268.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="131.0" fitWidth="168.0" layoutX="334.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Imagenes/MapaRuta.png" />
                      </image>
                   </ImageView>
                </children>
             </Pane>
-            <Pane id="pnlMeni z x c v s g" fx:id="pnlMenuGeneral" layoutX="25.0" layoutY="79.0" prefHeight="833.0" prefWidth="321.0" style="-fx-background-color: #474E68;">
+            <Pane id="pnlMeni z x c v s g" fx:id="pnlMenuGeneral" layoutX="25.0" layoutY="79.0" prefHeight="884.0" prefWidth="352.0" style="-fx-background-color: #474E68;">
                <children>
-                  <Pane prefHeight="52.0" prefWidth="321.0" style="-fx-background-color: #37353E;">
+                  <Pane prefHeight="52.0" prefWidth="352.0" style="-fx-background-color: #37353E;">
                      <children>
                         <Label id="lblCalcularRuta" layoutX="14.0" layoutY="16.0" prefHeight="21.0" prefWidth="184.0" text="Cálculo de Ruta" textFill="#edecec">
                            <font>
@@ -49,43 +49,43 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <Label layoutX="46.0" layoutY="103.0" prefHeight="18.0" prefWidth="65.0" text="Origen:" textFill="WHITE">
+                  <Label layoutX="64.0" layoutY="103.0" prefHeight="18.0" prefWidth="65.0" text="Origen:" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="46.0" layoutY="145.0" prefHeight="18.0" prefWidth="65.0" text="Destino:" textFill="#fffefe">
+                  <Label layoutX="64.0" layoutY="145.0" prefHeight="18.0" prefWidth="65.0" text="Destino:" textFill="#fffefe">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Separator layoutX="21.0" layoutY="273.0" prefHeight="4.0" prefWidth="261.0" style="-fx-background-color: #50577A;" />
-                  <ComboBox fx:id="cmboxOrigen" layoutX="121.0" layoutY="103.0" prefWidth="150.0" promptText="Seleccionar" />
-                  <ComboBox fx:id="cmboxDestino" layoutX="121.0" layoutY="141.0" prefWidth="150.0" promptText="Seleccionar" />
+                  <Separator layoutX="21.0" layoutY="273.0" prefHeight="4.0" prefWidth="309.0" style="-fx-background-color: #50577A;" />
+                  <ComboBox fx:id="cmboxOrigen" layoutX="139.0" layoutY="103.0" prefWidth="150.0" promptText="Seleccionar" />
+                  <ComboBox fx:id="cmboxDestino" layoutX="139.0" layoutY="141.0" prefWidth="150.0" promptText="Seleccionar" />
                   <Label layoutX="21.0" layoutY="295.0" prefHeight="20.0" prefWidth="293.0" text="Gestión De Rutas y Paradas" textFill="#fffbfb">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Button id="btnGestionarParada" fx:id="btnGestionarParada" layoutX="53.0" layoutY="341.0" mnemonicParsing="false" onAction="#AbrirGestionParada" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Gestionar Paradas" textFill="WHITE" />
-                  <Button id="btnGestionarRuta" fx:id="btnGestionarRuta" layoutX="53.0" layoutY="398.0" mnemonicParsing="false" onAction="#AbrirGestionRuta" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Gestionar Rutas" textFill="WHITE" />
-                  <Button id="btnCalcularRuta" fx:id="btnCalcularRuta" layoutX="53.0" layoutY="206.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Calcular Rutas" textFill="WHITE" />
-                  <ImageView fitHeight="41.0" fitWidth="35.0" layoutX="66.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true">
+                  <Button id="btnGestionarParada" fx:id="btnGestionarParada" layoutX="69.0" layoutY="345.0" mnemonicParsing="false" onAction="#AbrirGestionParada" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Gestionar Paradas" textFill="WHITE" />
+                  <Button id="btnGestionarRuta" fx:id="btnGestionarRuta" layoutX="69.0" layoutY="402.0" mnemonicParsing="false" onAction="#AbrirGestionRuta" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Gestionar Rutas" textFill="WHITE" />
+                  <Button id="btnCalcularRuta" fx:id="btnCalcularRuta" layoutX="71.0" layoutY="206.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Calcular Rutas" textFill="WHITE" />
+                  <ImageView fitHeight="41.0" fitWidth="35.0" layoutX="82.0" layoutY="402.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Imagenes/ruta.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="66.0" layoutY="348.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="82.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Imagenes/parada.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="28.0" layoutX="84.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="28.0" layoutX="99.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Imagenes/calcular.png" />
                      </image>
                   </ImageView>
-                  <Pane layoutX="35.0" layoutY="653.0" prefHeight="131.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
+                  <Pane layoutX="46.0" layoutY="663.0" prefHeight="131.0" prefWidth="261.0" style="-fx-background-color: #50577A;">
                      <children>
                         <Label layoutX="14.0" layoutY="14.0" prefHeight="20.0" prefWidth="103.0" text="Rutas Activas" textFill="#fffbfb">
                            <font>
@@ -97,14 +97,14 @@
                               <Image url="@Imagenes/paradaActiva.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="lblRutasActivas" layoutX="89.0" layoutY="53.0" prefHeight="25.0" prefWidth="52.0" text="0000" textFill="WHITE">
+                        <Label fx:id="lblRutasActivas" layoutX="103.0" layoutY="66.0" prefHeight="25.0" prefWidth="52.0" text="0000" textFill="WHITE">
                            <font>
-                              <Font name="System Bold Italic" size="18.0" />
+                              <Font name="System Bold Italic" size="20.0" />
                            </font>
                         </Label>
                      </children>
                   </Pane>
-                  <Pane layoutX="35.0" layoutY="508.0" prefHeight="131.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
+                  <Pane layoutX="46.0" layoutY="518.0" prefHeight="131.0" prefWidth="261.0" style="-fx-background-color: #50577A;">
                      <children>
                         <Label layoutX="11.0" layoutY="13.0" prefHeight="20.0" prefWidth="103.0" text="Paradas Activas" textFill="#fffbfb">
                            <font>
@@ -116,17 +116,17 @@
                               <Image url="@Imagenes/rutaActiva.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="lblParadasActivas" layoutX="88.0" layoutY="65.0" prefHeight="25.0" prefWidth="52.0" text="0000" textFill="WHITE">
+                        <Label fx:id="lblParadasActivas" layoutX="102.0" layoutY="66.0" prefHeight="25.0" prefWidth="52.0" text="0000" textFill="WHITE">
                            <font>
-                              <Font name="System Bold Italic" size="18.0" />
+                              <Font name="System Bold Italic" size="20.0" />
                            </font>
                         </Label>
                      </children>
                   </Pane>
-                  <Separator layoutX="21.0" layoutY="482.0" prefHeight="4.0" prefWidth="261.0" style="-fx-background-color: #50577A;" />
+                  <Separator layoutX="21.0" layoutY="482.0" prefHeight="4.0" prefWidth="309.0" style="-fx-background-color: #50577A;" />
                </children>
             </Pane>
-            <Pane fx:id="pnlResultados" layoutX="359.0" layoutY="71.0" prefHeight="451.0" prefWidth="1041.0" style="-fx-background-color: #474E68;" visible="false">
+            <Pane fx:id="pnlResultados" layoutX="397.0" layoutY="79.0" prefHeight="419.0" prefWidth="1275.0" style="-fx-background-color: #474E68;" visible="false">
                <children>
                   <Label layoutX="26.0" layoutY="14.0" prefHeight="20.0" prefWidth="103.0" text="Resultados" textFill="WHITE">
                      <font>
@@ -134,7 +134,7 @@
                      </font>
                   </Label>
                   <Separator layoutX="26.0" layoutY="44.0" prefHeight="4.0" prefWidth="150.0" style="-fx-background-color: #50577A;" />
-                  <Pane fx:id="pnlDistancia" layoutX="13.0" layoutY="111.0" prefHeight="300.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
+                  <Pane fx:id="pnlDistancia" layoutX="135.0" layoutY="93.0" prefHeight="300.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
                      <children>
                         <Label layoutX="11.0" layoutY="13.0" prefHeight="20.0" prefWidth="115.0" text="Menor Distancia" textFill="#fffbfb">
                            <font>
@@ -188,7 +188,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane fx:id="pnlTiempo" layoutX="270.0" layoutY="111.0" prefHeight="300.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
+                  <Pane fx:id="pnlTiempo" layoutX="392.0" layoutY="93.0" prefHeight="300.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
                      <children>
                         <Label layoutX="11.0" layoutY="13.0" prefHeight="20.0" prefWidth="103.0" text="Menor Tiempo" textFill="#fffbfb">
                            <font>
@@ -242,7 +242,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane fx:id="pnlTransbordos" layoutX="526.0" layoutY="111.0" prefHeight="300.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
+                  <Pane fx:id="pnlTransbordos" layoutX="648.0" layoutY="93.0" prefHeight="300.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
                      <children>
                         <Label layoutX="14.0" layoutY="15.0" prefHeight="20.0" prefWidth="136.0" text="Menos Transbordos" textFill="#fffbfb">
                            <font>
@@ -296,7 +296,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane fx:id="pnlCosto" layoutX="784.0" layoutY="111.0" prefHeight="300.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
+                  <Pane fx:id="pnlCosto" layoutX="906.0" layoutY="93.0" prefHeight="300.0" prefWidth="235.0" style="-fx-background-color: #50577A;">
                      <children>
                         <Label layoutX="11.0" layoutY="13.0" prefHeight="20.0" prefWidth="103.0" text="Menor Costo" textFill="#fffbfb">
                            <font>
@@ -360,8 +360,8 @@
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Button id="btnGestionarParada" fx:id="btnLimpiarResultados" layoutX="814.0" layoutY="19.0" mnemonicParsing="false" onAction="#AbrirGestionParada" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Limpiar Resultados" textFill="WHITE" />
-                  <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="824.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                  <Button id="btnGestionarParada" fx:id="btnLimpiarResultados" layoutX="1059.0" layoutY="19.0" mnemonicParsing="false" onAction="#AbrirGestionParada" prefHeight="41.0" prefWidth="197.0" style="-fx-background-color: #0275d8;" text="Limpiar Resultados" textFill="WHITE" />
+                  <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="1070.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Imagenes/limpiar.png" />
                      </image>
@@ -377,7 +377,7 @@
                      </font>
                   </Label>
                </children></Pane>
-            <Pane layoutX="-6.0" prefHeight="52.0" prefWidth="1423.0" style="-fx-background-color: #37353E;">
+            <Pane layoutX="-6.0" prefHeight="52.0" prefWidth="1751.0" style="-fx-background-color: #37353E;">
                <children>
                   <Label contentDisplay="CENTER" layoutX="41.0" layoutY="6.0" prefHeight="39.0" prefWidth="124.0" text="     GeoParada" textFill="#f4f2f2">
                      <font>
@@ -396,7 +396,7 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="pnlMapa" layoutX="359.0" layoutY="534.0" prefHeight="375.0" prefWidth="1041.0" style="-fx-background-color: #474E68;">
+            <Pane fx:id="pnlMapa" layoutX="397.0" layoutY="506.0" prefHeight="457.0" prefWidth="1275.0" style="-fx-background-color: #474E68;">
                <children>
                   <Label layoutX="59.0" layoutY="17.0" prefHeight="20.0" prefWidth="103.0" text="Mapa" textFill="WHITE">
                      <font>
