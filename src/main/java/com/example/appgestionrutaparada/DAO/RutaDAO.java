@@ -215,6 +215,8 @@ public class RutaDAO {
         return 0;
     }
 
+
+    // Busca los últimos dígitos de los Id para asi seguir con el siguiente y mantener la estética
     public int findMaxNumericId() {
         // La consulta SQL extrae el sufijo numérico (ej: "015" de "R015") y lo convierte a entero para encontrar el máximo.
         final String sql = "SELECT MAX(CAST(SUBSTRING(idRuta, 2) AS INTEGER)) AS max_id FROM ruta";

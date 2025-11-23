@@ -107,6 +107,7 @@ public class ParadaDAO {
         }
     }
 
+    //Busca la parada mediante su ID
     public Parada findById(String idParada) {
         final String sql = "SELECT * FROM parada WHERE idParada = ?";
         try (Connection conn = ConexionBd.getConnection();
@@ -128,6 +129,7 @@ public class ParadaDAO {
         return null;
     }
 
+    // Retorna el nombre de la parada para poder utilizarla en calcular la ruta
     public Parada findByName(String nombreParada) {
         final String sql = "SELECT * FROM parada WHERE nombreParada = ?";
         try (Connection conn = ConexionBd.getConnection();
@@ -150,6 +152,7 @@ public class ParadaDAO {
         return null;
     }
 
+    // Cuenta cuantos elementos actuales hay en la tabla de parada
     public int count() {
         final String sql = "SELECT COUNT(*) AS total FROM parada";
         try (Connection conn = ConexionBd.getConnection();
@@ -164,6 +167,7 @@ public class ParadaDAO {
         return 0; // Retorna 0 si hay error o la tabla está vacía
     }
 
+    // Busca los últimos dígitos de los Id para asi seguir con el siguiente y mantener la estética
     public int findMaxNumericId() {
        //lo convierte a entero para encontrar el máximo.
         final String sql = "SELECT MAX(CAST(SUBSTRING(idParada, 2) AS INTEGER)) AS max_id FROM parada";
