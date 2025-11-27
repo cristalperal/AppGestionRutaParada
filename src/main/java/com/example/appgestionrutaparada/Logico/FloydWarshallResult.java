@@ -12,7 +12,6 @@ public class FloydWarshallResult {
 
     // Define un valor grande para representar la infinidad
     private static final int INF = 999999;
-
     public final double[][] distancia;
     public final int[][] predecesor;
     public final List<Parada> paradas;
@@ -49,7 +48,6 @@ public class FloydWarshallResult {
             }
             return camino;
         }
-
         // Si el predecesor es el origen el camino es directo
         if (predecesor[i][j] == i) {
             camino.add(paradas.get(i).getIdParada());

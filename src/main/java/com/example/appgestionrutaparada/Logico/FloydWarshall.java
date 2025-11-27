@@ -38,7 +38,7 @@ public class FloydWarshall {
                 } else {
                     distancia[i][j] = INF; // Inicialmente infinito
                 }
-                predecesor[i][j] = -1; // Inicialmente, sin predecesor
+                predecesor[i][j] = -1; // Inicialmente sin predecesor
             }
         }
 
@@ -58,7 +58,6 @@ public class FloydWarshall {
                 }
             }
         }
-
         // Algoritmo de Floyd-Warshall
         // K es la parada intermedia
         for (int k = 0; k < n; k++) {
@@ -78,7 +77,7 @@ public class FloydWarshall {
             }
         }
 
-        return new FloydWarshallResult(distancia, predecesor, paradas, indiceParada);
+        return new FloydWarshallResult(distancia, predecesor, paradas, indiceParada); // Es recursivo
     }
 
     //Objetivo: Obtiene el peso según el criterio que se le pase, toma el valor de este

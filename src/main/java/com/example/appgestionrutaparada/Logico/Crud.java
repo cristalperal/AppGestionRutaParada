@@ -10,7 +10,7 @@ import com.example.appgestionrutaparada.Modelo.Ruta;
 import java.util.LinkedList;
 import java.util.List;
 
-//Implementación del CRUD de PARADA y RUTA (Agregar, modificar y eliminar)
+//Implementación del CRUD de parada y ruta
 public class Crud {
     private final ParadaDAO paradaDAO; // Nodos
     private final RutaDAO rutaDAO;// Aristas
@@ -21,6 +21,7 @@ public class Crud {
         rutaDAO = RutaDAO.getInstance();
     }
 
+    //Objetivo: instancia del crud
     public static Crud getInstancia() {
         if (instancia == null) {
             instancia = new Crud();
@@ -28,10 +29,12 @@ public class Crud {
         return instancia;
     }
 
+    //Objetivo: Obtener todas las paradas
     public List<Parada> getParada() {
         return paradaDAO.findAll();
     }
 
+    //Objetivo: Obtener todas las rutas
     public List<List<Ruta>> getRuta() {
         List<Parada> paradas = paradaDAO.findAll(); // Obtener todos los nodos
         List<List<Ruta>> listaDeAdyacencia = new LinkedList<>();
@@ -44,7 +47,8 @@ public class Crud {
         return listaDeAdyacencia;
     }
 
-    //Métodos de Parada
+    //------ Métodos de Parada ---------
+
     //Objetivo: Agregar una parada a la lista
     public boolean agregarParada(Parada p) {
         if (paradaDAO.exists(p.getIdParada())) {
@@ -76,11 +80,16 @@ public class Crud {
 
     // Objetivo: Buscar el ID de una Parada a partir de su nombre
     public String buscarIdPorNombre(String nombreParada) {
-        Parada p = paradaDAO.findByName(nombreParada);
+        Parada p = paradaDAO.findByNameP(nombreParada);
         return (p != null) ? p.getIdParada() : null;
     }
 
-    //Métodos de Ruta
+    // Objetivo: Buscar una parada por Nombre y devolver el objeto Parada completo
+    public Parada buscarParadaPorNombre(String nombreParada) {
+        return paradaDAO.findByNameP(nombreParada);
+    }
+
+    // ------- Métodos de Ruta --------
 
     //Objetivo: Agregar una ruta a la lista, tambien se obtiene la parada de origen y destino
     public boolean agregarRuta(Ruta r) {
@@ -93,7 +102,6 @@ public class Crud {
         rutaDAO.save(r);
         return true;
     }
-
 
     //Objetivo: Elimina una ruta por su index
     public boolean eliminarRuta(String idOrigenParada, String idDestinoParada) {
@@ -115,7 +123,7 @@ public class Crud {
         return false;
     }
 
-    // Objetivo: Busca una ruta específica dado su origen y destino
+    // Objetivo: Busca una ruta específica dado su origen y destino - Floy
     public Ruta buscarRuta(String idOrigen, String idDestino) {
         //  Obtener la lista de paradas para encontrar el índice del origen
         List<Parada> paradas = paradaDAO.findAll();
@@ -126,11 +134,9 @@ public class Crud {
                 break;
             }
         }
-
         if (indexOrigen != -1) {
             // Obtener la lista de rutas salientes de ese origen
             List<Ruta> rutasSalientes = rutaDAO.findByOrigen(idOrigen);
-
             //Buscar la ruta cuyo destino coincida
             for (Ruta r : rutasSalientes) {
                 if (r.getDestinoRuta().equals(idDestino)) {
@@ -141,6 +147,13 @@ public class Crud {
         return null;
     }
 
+    // Objetivo: Buscar una ruta por Nombre y devolver el objeto ruta completo
+    public Ruta buscarRutaPorNombre(String nombreRuta) {
+        return rutaDAO.findByNameR(nombreRuta);
+    }
+
+    // ------ Métodos del grafo ------
+
     // Obtener el Grafo completo
     public Grafo obtenerGrafo() {
         Grafo grafo = new Grafo();
@@ -149,6 +162,7 @@ public class Crud {
         return grafo;
     }
 
+    // ---- Métodos de utilidades -----
 
     // Métodos para la información dinámica del menú
     public int paradasActivas() {
@@ -159,6 +173,7 @@ public class Crud {
         return rutaDAO.count();
     }
 
+    // Métodos para encontrar el max de elementos, para generar los ids
     public int getMaxIdParada() {
         return paradaDAO.findMaxNumericId();
     }

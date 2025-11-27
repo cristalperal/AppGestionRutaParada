@@ -109,30 +109,18 @@ public class MenuPController implements Initializable {
 
         Grafo grafo = crudInstancia.obtenerGrafo();
 
+        // para el algoritmo de floyd
         if (grafo.getParada().size() > 0) {
             fwDistanciaResult = floydWarshall.calcularTodoParParadas(grafo, "distancia");
         } else {
             fwDistanciaResult = null;
         }
-
         cargarOpcionesParada();
         btnCalcularRuta.setOnAction(this::CalcularRuta);
         btnLimpiarResultados.setOnAction(this::LimpiarResultados);
         // Limpiar al inicio
         limpiarCamposResultados();
         MostrarRutasParadasActivas();
-
-
-    }
-
-    // Objetivo: Mostrar en los paneles las rutas y paradas activas
-    private void MostrarRutasParadasActivas() {
-        // Mostrar la cantidad de paradas y rutas activas
-        int totalParadas = crudInstancia.paradasActivas();
-        int totalRutas = crudInstancia.rutasActivas();
-        // formateando como String
-        lblParadasActivas.setText(String.valueOf("00" + totalParadas));
-        lblRutasActivas.setText(String.valueOf("00" + totalRutas));
     }
 
     // Objetivo: Calcular las rutas por los diferentes criterios
@@ -173,7 +161,6 @@ public class MenuPController implements Initializable {
             mostrarAlerta("Ruta No Disponible", "No se pudo encontrar ninguna ruta que conecte \n" + nombreOrigen + " con " + nombreDestino, Alert.AlertType.INFORMATION);
             return;
         }
-
         //hacer visible el panel de mostrar los resultados
         pnlResultados.setVisible(true);
         pnlGeneralNombre.setVisible(false);
@@ -196,6 +183,7 @@ public class MenuPController implements Initializable {
         mostrarResultadoEnPanel(caminoCosto, "COSTO");
     }
 
+    // Reconstruir el camino para el algoritmo de Floyd
     private List<Ruta> reconstruirRutasDesdeParadas(Grafo grafo, List<String> caminoParadas) {
         List<Ruta> caminoRutas = new java.util.LinkedList<>();
 
@@ -266,7 +254,6 @@ public class MenuPController implements Initializable {
         if (camino == null || camino.isEmpty()) {
             return mejor; // Devuelve ceros si no hay camino
         }
-
         mejor.transbordos = camino.size(); // Cada ruta en la lista es un transbordo
         for (Ruta r : camino) {
             mejor.distanciaTotal += r.getDistanciaRuta();
@@ -326,19 +313,6 @@ public class MenuPController implements Initializable {
         pnlResultados.setVisible(false);
     }
 
-    // Metodos para Abrir las ventanas de parada y ruta desde el menu principal
-    @FXML
-    public void AbrirGestionParada(ActionEvent actionEvent) {
-
-        abrirNuevaVentana("GestionarParadaV.fxml", "Gestión de Paradas");
-    }
-
-    @FXML
-    public void AbrirGestionRuta(ActionEvent actionEvent) {
-
-        abrirNuevaVentana("GestionarRutaV.fxml", "Gestión de Rutas");
-    }
-
 
     // Objetivo: Cargar los nombres  de las paradas en los comboBox
     private void cargarOpcionesParada() {
@@ -351,6 +325,29 @@ public class MenuPController implements Initializable {
         }
         cmboxOrigen.setItems(nom);
         cmboxDestino.setItems(nom);
+    }
+
+
+    // Objetivo: Mostrar en los paneles las rutas y paradas activas
+    private void MostrarRutasParadasActivas() {
+        // Mostrar la cantidad de paradas y rutas activas
+        int totalParadas = crudInstancia.paradasActivas();
+        int totalRutas = crudInstancia.rutasActivas();
+        // formateando como String
+        lblParadasActivas.setText(String.valueOf("00" + totalParadas));
+        lblRutasActivas.setText(String.valueOf("00" + totalRutas));
+    }
+
+
+    //Objetivo: Refrescar el menu
+    private void refrescarDatosMenu() {
+        cargarOpcionesParada();
+        cmboxOrigen.getSelectionModel().clearSelection();
+        cmboxDestino.getSelectionModel().clearSelection();
+        MostrarRutasParadasActivas();
+        limpiarCamposResultados();
+        pnlGeneralNombre.setVisible(true);
+        pnlResultados.setVisible(false);
     }
 
 
@@ -378,15 +375,17 @@ public class MenuPController implements Initializable {
         }
     }
 
-    private void refrescarDatosMenu() {
-        cargarOpcionesParada();
-        cmboxOrigen.getSelectionModel().clearSelection();
-        cmboxDestino.getSelectionModel().clearSelection();
-        MostrarRutasParadasActivas();
-        limpiarCamposResultados();
-        pnlGeneralNombre.setVisible(true);
-        pnlResultados.setVisible(false);
+    // Metodos para Abrir las ventanas de parada y ruta desde el menu principal
+    @FXML
+    public void AbrirGestionParada(ActionEvent actionEvent) {
+        abrirNuevaVentana("GestionarParadaV.fxml", "Gestión de Paradas");
     }
+
+    @FXML
+    public void AbrirGestionRuta(ActionEvent actionEvent) {
+        abrirNuevaVentana("GestionarRutaV.fxml", "Gestión de Rutas");
+    }
+
 
     //Objetivo:  Método genérico para las alertas
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {

@@ -8,9 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ParadaController implements Initializable {
@@ -43,12 +43,17 @@ public class ParadaController implements Initializable {
     @FXML
     private Button btnCancelarAccion;
 
+    @FXML
+    private Button btnBuscar;
+    @FXML
+    private ComboBox<String> cmbBuscar;
+
     private Crud crudInstancia;// instancia del CRUD para poder usarlo
     private ObservableList<Parada> listaParadasO; // ObservableList se usa para poder refrezcar la tabla al cambiar algun elemento, es similar a ArrayList
     private Parada paradaSeleccionada = null;// para guardar la parada seleccionada
 
     // Contador para el id de parada
-    private int nextRouteId = 1;
+    private int generarId = 1;
 
     // para poder iniciar el crud y las listas
     @Override
@@ -57,27 +62,20 @@ public class ParadaController implements Initializable {
         // iniciar la instancia y la lista
         crudInstancia = Crud.getInstancia();
         listaParadasO = FXCollections.observableArrayList(crudInstancia.getParada());
-
         // Para el id automático
         txtCod.setDisable(true);
         setInitialRouteId();
-
         // metodos para que el crud funcione
         configurarTabla(); // para hacer que la tabla sea dinamica 
         cargarDatos(); //para cargar los datos que ya esten 
         cargarOpcionesTransporte();// para que se cargen los diferentes transporte
+        cargarOpcionesParada();
 
         btnGuardar.setOnAction(this::guardarParada);
         btnActualizar.setOnAction(this::ModificarParada);
         btnEliminar.setOnAction(this::eliminarParada);
         btnCancelarAccion.setOnAction(this::cancelarAccion);
-
-        /*
-        btnGuardar.setOnAction(this::guardarParada);
-        btnActualizar.setOnAction(this::ModificarParada);
-        btnEliminar.setOnAction(this::eliminarParada);
-        btnCancelarAccion.setOnAction(this::cancelarAccion); */
-
+        btnBuscar.setOnAction(this::buscarParadaPorNombre);
 
         // Habilitar la funcionalidad de CLIC en la tabla
         tblParadas.getSelectionModel().selectedItemProperty().addListener(
@@ -85,32 +83,32 @@ public class ParadaController implements Initializable {
         );
     }
 
-    // Objetivo: Cancelar las acciones de actualizar y eliminar
-    private void cancelarAccion(ActionEvent actionEvent) {
-        tblParadas.getSelectionModel().clearSelection();
-        restaurarEstadoFormulario();
-    }
+     // Objetivo: Buscar una parada por Nombre seleccionado en el ComboBox y mostrar solo esa
+    private void buscarParadaPorNombre(ActionEvent actionEvent) {
+        String nombreBuscado = cmbBuscar.getValue(); // Obtiene el valor seleccionado
 
-    //Objetivo: cargar los datos de la tabla en el formulario para actualizar
-    private void mostrarDetallesParada(Parada parada) {
-        paradaSeleccionada = parada; // Guarda la referencia del objeto seleccionado
+        // Si el usuario no ha seleccionado nada o ha deseleccionado
+        if (nombreBuscado == null || nombreBuscado.isEmpty()) {
+            cargarDatos();
+            tblParadas.refresh();
+            mostrarAlerta("Información", "No ha seleccionado una parada", Alert.AlertType.INFORMATION);
+            return;
+        }
 
-        if (parada != null) {
-            // Cargar los datos de la parada seleccionada en los campos de texto
-            txtCod.setText(parada.getIdParada());
-            txtNombrePa.setText(parada.getNombreParada());
-            txtDireccion.setText(parada.getDireccionParada());
-            cmboxTipoT.setValue(parada.getTipoTransporte());
+        Parada paradaEncontrada = crudInstancia.buscarParadaPorNombre(nombreBuscado);
+        // una lista observable solo con la parada encontrada
+        ObservableList<Parada> listaFiltrada = FXCollections.observableArrayList();
 
-            txtCod.setDisable(true); // Evita que se cambie el ID al editar
-            btnGuardar.setDisable(true); // Bloquea Guardar cuando hay algo seleccionado
-            btnActualizar.setDisable(false);
-            btnEliminar.setDisable(false);
+        if (paradaEncontrada != null) {
+            listaFiltrada.add(paradaEncontrada);
             btnCancelarAccion.setDisable(false);
         } else {
-            restaurarEstadoFormulario();
+            mostrarAlerta("Error", "No se pudo encontrar la parada seleccionada.", Alert.AlertType.WARNING);
         }
+        tblParadas.setItems(listaFiltrada);
+        tblParadas.refresh();
     }
+
 
     //Objetivo: Eliminar una parada teniendo en cuenta que tambien se van a eleiminar sus rutas asociadas
     private void eliminarParada(ActionEvent actionEvent) {
@@ -135,22 +133,11 @@ public class ParadaController implements Initializable {
                 limpiarCampos();
                 tblParadas.getSelectionModel().clearSelection();
                 tblParadas.refresh();
+                cargarOpcionesParada();
             } else {
                 mostrarAlerta("Error", "No se pudo eliminar la parada.", Alert.AlertType.ERROR);
             }
         }
-    }
-
-    //Objetivo: Restablecer totalmente el formulario despues de una acción
-    private void restaurarEstadoFormulario() {
-        paradaSeleccionada = null;
-        limpiarCampos();
-        // Reestablecer botones y campos
-        txtCod.setDisable(true);
-        btnGuardar.setDisable(false);
-        btnActualizar.setDisable(true);
-        btnEliminar.setDisable(true);
-        btnCancelarAccion.setDisable(true);
     }
 
     //Objetivo: Actualizar una parada
@@ -186,6 +173,7 @@ public class ParadaController implements Initializable {
             }
             mostrarAlerta("Éxito modificando los datos ", "Parada  " + idExistente + " actualizada correctamente.", Alert.AlertType.INFORMATION);
             limpiarCampos(); // Limpia y deselecciona
+            cargarOpcionesParada();
         } else {
             mostrarAlerta("Error", "No se pudo actualizar la parada.", Alert.AlertType.ERROR);
         }
@@ -208,13 +196,54 @@ public class ParadaController implements Initializable {
         // para guardar la informacion
         if (crudInstancia.agregarParada(nuevaparada)) {
             // si se agrego correctamente se añade a la lista
-            nextRouteId++;
+            generarId++;
             listaParadasO.add(nuevaparada);
             mostrarAlerta("Registro con éxito", "Parada " + nombreParada + " Registrada Correctamente .", Alert.AlertType.INFORMATION);
             limpiarCampos();
+            cargarOpcionesParada();
         } else {
             mostrarAlerta("Error de Registro", "La parada con código " + codParada + " ya existe.", Alert.AlertType.WARNING);
         }
+    }
+
+    //Objetivo: cargar los datos de la tabla en el formulario para actualizar
+    private void mostrarDetallesParada(Parada parada) {
+        paradaSeleccionada = parada; // Guarda la referencia del objeto seleccionado
+        if (parada != null) {
+            // Cargar los datos de la parada seleccionada en los campos de texto
+            txtCod.setText(parada.getIdParada());
+            txtNombrePa.setText(parada.getNombreParada());
+            txtDireccion.setText(parada.getDireccionParada());
+            cmboxTipoT.setValue(parada.getTipoTransporte());
+            txtCod.setDisable(true);
+            btnGuardar.setDisable(true);
+            btnActualizar.setDisable(false);
+            btnEliminar.setDisable(false);
+            btnCancelarAccion.setDisable(false);
+        } else {
+            restaurarEstadoFormulario();
+        }
+    }
+
+    //Objetivo: Restablecer totalmente el formulario despues de una acción
+    private void restaurarEstadoFormulario() {
+        paradaSeleccionada = null;
+        limpiarCampos();
+        cmbBuscar.getSelectionModel().clearSelection();
+        cargarDatos();
+        tblParadas.refresh();
+        // Reestablecer botones y campos
+        txtCod.setDisable(true);
+        btnGuardar.setDisable(false);
+        btnActualizar.setDisable(true);
+        btnEliminar.setDisable(true);
+        btnCancelarAccion.setDisable(true);
+    }
+
+    // Objetivo: Cancelar las acciones de actualizar y eliminar
+    private void cancelarAccion(ActionEvent actionEvent) {
+        tblParadas.getSelectionModel().clearSelection();
+        restaurarEstadoFormulario();
     }
 
     //Objetivo: Limpia los campos del formulario
@@ -231,6 +260,19 @@ public class ParadaController implements Initializable {
         cmboxTipoT.setItems(tipos);
     }
 
+
+    // Objetivo: Cargar los nombres de las paradas en los comboBox
+    private void cargarOpcionesParada() {
+        // Obtener todas las paradas
+        List<Parada> paradas = crudInstancia.getParada();
+        // Extraer solo los nombres de parada
+        ObservableList<String> nom = FXCollections.observableArrayList();
+        for (Parada p : paradas) {
+            nom.add(p.getNombreParada());
+        }
+        cmbBuscar.setItems(nom);
+
+    }
     //Objetivo: Carga todos los datos de la lista
     private void cargarDatos() {
         // Enlazar la lista observable con la tabla
@@ -256,15 +298,14 @@ public class ParadaController implements Initializable {
         alert.showAndWait();
     }
 
-
     // Métodos para general el id automático
     private String generateNextRouteId() {
-        return String.format("P%03d", nextRouteId);
+        return String.format("P%03d", generarId);
     }
 
     private void setInitialRouteId() {
         int maxIdInDB = crudInstancia.getMaxIdParada();
-        nextRouteId = maxIdInDB + 1;
+        generarId = maxIdInDB + 1;
         txtCod.setText(generateNextRouteId());
     }
 

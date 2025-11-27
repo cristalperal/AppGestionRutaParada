@@ -12,7 +12,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.MenuPController">
    <children>
-      <AnchorPane prefHeight="1004.0" prefWidth="1737.0" style="-fx-background-color: #404258;">
+      <AnchorPane prefHeight="997.0" prefWidth="1745.0" style="-fx-background-color: #404258;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Pane fx:id="pnlGeneralNombre" layoutX="397.0" layoutY="79.0" prefHeight="419.0" prefWidth="1275.0" style="-fx-background-color: #474E68;">
                <children>
@@ -126,7 +126,7 @@
                   <Separator layoutX="21.0" layoutY="482.0" prefHeight="4.0" prefWidth="309.0" style="-fx-background-color: #50577A;" />
                </children>
             </Pane>
-            <Pane fx:id="pnlResultados" layoutX="397.0" layoutY="79.0" prefHeight="419.0" prefWidth="1275.0" style="-fx-background-color: #474E68;">
+            <Pane fx:id="pnlResultados" layoutX="397.0" layoutY="79.0" prefHeight="419.0" prefWidth="1275.0" style="-fx-background-color: #474E68;" visible="false">
                <children>
                   <Label layoutX="26.0" layoutY="14.0" prefHeight="20.0" prefWidth="103.0" text="Resultados" textFill="WHITE">
                      <font>

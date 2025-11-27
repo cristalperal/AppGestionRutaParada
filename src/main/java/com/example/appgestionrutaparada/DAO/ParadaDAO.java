@@ -1,7 +1,6 @@
 package com.example.appgestionrutaparada.DAO;
 
 import com.example.appgestionrutaparada.Modelo.Parada;
-import com.example.appgestionrutaparada.Modelo.Ruta;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -130,7 +129,7 @@ public class ParadaDAO {
     }
 
     // Retorna el nombre de la parada para poder utilizarla en calcular la ruta
-    public Parada findByName(String nombreParada) {
+    public Parada findByNameP(String nombreParada) {
         final String sql = "SELECT * FROM parada WHERE nombreParada = ?";
         try (Connection conn = ConexionBd.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -164,7 +163,7 @@ public class ParadaDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0; // Retorna 0 si hay error o la tabla está vacía
+        return 0;
     }
 
     // Busca los últimos dígitos de los Id para asi seguir con el siguiente y mantener la estética
@@ -177,7 +176,6 @@ public class ParadaDAO {
              Statement statement = conn.createStatement();
              ResultSet rs = statement.executeQuery(sql)) {
             if (rs.next()) {
-                // Si la tabla está vacía, MAX() retorna NULL, en Java getInt() retorna 0.
                 // Si hay datos, retorna el ID máximo.
                 maxId = rs.getInt("max_id");
             }

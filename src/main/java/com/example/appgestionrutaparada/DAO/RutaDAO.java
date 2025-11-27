@@ -1,5 +1,6 @@
 package com.example.appgestionrutaparada.DAO;
 
+import com.example.appgestionrutaparada.Modelo.Parada;
 import com.example.appgestionrutaparada.Modelo.Ruta;
 
 import java.sql.*;
@@ -169,6 +170,32 @@ public class RutaDAO {
             e.printStackTrace();
         }
         return list;
+    }
+
+    // Retorna el nombre de la ruta para
+    public Ruta findByNameR(String nombreRuta) {
+        final String sql = "SELECT * FROM ruta WHERE nombreRuta = ?";
+        try (Connection conn = ConexionBd.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, nombreRuta);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                // Si se encuentra, retorna el objeto ruta
+                return new Ruta(
+                        rs.getString("idRuta"),
+                        rs.getString("nombreRuta"),
+                        rs.getInt("distanciaRuta"),
+                        rs.getFloat("costoRuta"),
+                        rs.getInt("cantidadTransbordo"),
+                        rs.getInt("tiempoViaje"),
+                        rs.getString("origenRuta"),
+                        rs.getString("destinoRuta")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     //Verifica la existencia de una ruta por su clave origen y destino

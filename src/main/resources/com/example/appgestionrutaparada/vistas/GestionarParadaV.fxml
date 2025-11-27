@@ -83,17 +83,17 @@
         </columns>
       </TableView>
       <Button fx:id="btnCancelarAccion" disable="true" layoutX="642.0" layoutY="474.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #0275d8;" text="Cancelar Acción" textFill="#f6f2f2" />
-      <Label layoutX="714.0" layoutY="70.0" prefHeight="20.0" prefWidth="93.0" text="Buscar Parada" textFill="WHITE">
+      <Label layoutX="686.0" layoutY="71.0" prefHeight="20.0" prefWidth="93.0" text="Buscar Parada" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtBuscar" accessibleText="ID parada" layoutX="808.0" layoutY="68.0" prefHeight="25.0" prefWidth="121.0" />
       <Button fx:id="btnBuscar" layoutX="933.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" style="-fx-background-color: #0275d8;" />
-      <ImageView fitHeight="23.0" fitWidth="28.0" layoutX="944.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="946.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Imagenes/busqueda.png" />
          </image>
       </ImageView>
+      <ComboBox fx:id="cmbBuscar" layoutX="778.0" layoutY="68.0" prefHeight="25.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

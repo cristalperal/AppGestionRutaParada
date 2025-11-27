@@ -59,13 +59,17 @@ public class RutaController implements Initializable {
     private TableColumn<Ruta, String> colParadaOrigen;
     @FXML
     private TableColumn<Ruta, String> colParadaDestino;
+    @FXML
+    private Button btnBuscar;
+    @FXML
+    private ComboBox<String> cmbBuscar;
 
     private Crud crudInstancia;
     private ObservableList<Ruta> listaRutasO;
     private Ruta rutaSeleccionada = null; // Para manejo de selección
 
     // Contador para el id de ruta
-    private int nextRouteId = 1;
+    private int generarId = 1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -75,6 +79,7 @@ public class RutaController implements Initializable {
         configurarTabla();
         cargarOpcionesParada();
         cargarDatos();
+        cargarOpcionesRuta();
         // Para el id automático
         txtCod.setDisable(true);
         setInitialRouteId();
@@ -83,65 +88,36 @@ public class RutaController implements Initializable {
         btnActualizar.setOnAction(this::modificarRuta);
         btneliminar.setOnAction(this::eliminarRuta);
         btnCancelarAccion.setOnAction(this::cancelarAccion);
+        btnBuscar.setOnAction(this::buscarRutaPorNombre);
 
         tblRuta.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldVal, newVal) -> mostrarDetallesRuta(newVal)
         );
     }
 
-    // Objetivo: Cancelar las acciones de actualizar y eliminar
-    private void cancelarAccion(ActionEvent actionEvent) {
-        tblRuta.getSelectionModel().clearSelection();
-    }
+    // Objetivo: Buscar una parada por Nombre seleccionado en el ComboBox y mostrar solo esa
+    private void buscarRutaPorNombre(ActionEvent actionEvent) {
+        String nombreBuscado = cmbBuscar.getValue(); // Obtiene el valor seleccionado
 
-    // Objetivo: Cargar los id de las paradas en los comboBox
-    private void cargarOpcionesParada() {
-        // Obtener todas las paradas
-        List<Parada> paradas = crudInstancia.getParada();
-        // Extraer solo los id de parada
-        ObservableList<String> ids = FXCollections.observableArrayList();
-        for (Parada p : paradas) {
-            ids.add(p.getIdParada());
+        // Si el usuario no ha seleccionado nada o ha deseleccionado
+        if (nombreBuscado == null || nombreBuscado.isEmpty()) {
+            cargarDatos();
+            tblRuta.refresh();
+            mostrarAlerta("Información", "No ha seleccionado una ruta", Alert.AlertType.INFORMATION);
+            return;
         }
-        // Asignar la lista a ambos ComboBoxes
-        cmboxOrigen.setItems(ids);
-        cmboxDestino.setItems(ids);
-    }
+        Ruta rutaEncontrada = crudInstancia.buscarRutaPorNombre(nombreBuscado);
+        // una lista observable solo con la parada encontrada
+        ObservableList<Ruta> listaFiltrada = FXCollections.observableArrayList();
 
-
-    //Objetivo: cargar los datos de la tabla en el formulario para actualizar
-    private void mostrarDetallesRuta(Ruta ruta) {
-        rutaSeleccionada = ruta;
-        if (ruta != null) {
-            // Cargar datos a los campos
-            txtCod.setText(ruta.getIdRuta());
-            txtNombreR.setText(ruta.getNombreRuta());
-            spnDistancia.getValueFactory().setValue(ruta.getDistanciaRuta());
-            spnCosto.getValueFactory().setValue((double) ruta.getCostoRuta());
-            spnTransbordo.getValueFactory().setValue(ruta.getCantidadTransbordo());
-            spnTiempo.getValueFactory().setValue(ruta.getTiempoViaje());
-            cmboxOrigen.setValue(ruta.getOrigenRuta());
-            cmboxDestino.setValue(ruta.getDestinoRuta());
-
-            // Deshabilitar campos para el actualizar
-            txtCod.setDisable(true);
-            cmboxOrigen.setDisable(true);
-            cmboxDestino.setDisable(true);
-            btnGuardar.setDisable(true);
-            btnActualizar.setDisable(false);
-            btneliminar.setDisable(false);
+        if (rutaEncontrada != null) {
+            listaFiltrada.add(rutaEncontrada);
             btnCancelarAccion.setDisable(false);
         } else {
-            limpiarCampos();
-            // Restaurar a modo Guardar
-            txtCod.setDisable(true);
-            cmboxOrigen.setDisable(false);
-            cmboxDestino.setDisable(false);
-            btnGuardar.setDisable(false);
-            btnActualizar.setDisable(true);
-            btneliminar.setDisable(true);
-            btnCancelarAccion.setDisable(true);
+            mostrarAlerta("Error", "No se pudo encontrar la ruta seleccionada.", Alert.AlertType.WARNING);
         }
+        tblRuta.setItems(listaFiltrada);
+        tblRuta.refresh();
     }
 
     //Objetivo: Eliminar una ruta seleccionada
@@ -165,6 +141,7 @@ public class RutaController implements Initializable {
             if (crudInstancia.eliminarRuta(idOrigen, idDestino)) {
                 // Refrescar la tabla y limpiar
                 cargarDatos(); // Recargar todos los datos para remover ambas rutas
+                cargarOpcionesRuta();
                 mostrarAlerta("Éxito", "La ruta fue eliminada.", Alert.AlertType.INFORMATION);
                 mostrarDetallesRuta(null); // Limpia y deselecciona, restablece el formulario
             } else {
@@ -207,6 +184,7 @@ public class RutaController implements Initializable {
         if (crudInstancia.modificarRuta(origenExistente, destinoExistente, rutaActualizada)) {
             // Refrescar la tabla y limpiar
             cargarDatos(); // Recargar todos los datos para incluir la ruta inversa modificada
+            cargarOpcionesRuta();
             mostrarAlerta("Éxito", "Ruta " + idExistente + " actualizada correctamente.", Alert.AlertType.INFORMATION);
             mostrarDetallesRuta(null); // Limpia y deselecciona, restablece el formulario
         } else {
@@ -239,12 +217,86 @@ public class RutaController implements Initializable {
         // Guardar en el CRUD
         if (crudInstancia.agregarRuta(nuevaRuta)) {
             // El CRUD guarda la ruta y su inversa. Debemos recargar la tabla para mostrar ambas.
-            nextRouteId++;
+            generarId++;
             cargarDatos();
+            cargarOpcionesRuta();
             mostrarAlerta("Registro con éxito", "Ruta " + nombreRuta + " Registrada Correctamente.", Alert.AlertType.INFORMATION);
             limpiarCampos();
         } else {
             mostrarAlerta("Error de Registro", "Asegúrese que las paradas de Origen/Destino existan y la ruta no esté duplicada.", Alert.AlertType.WARNING);
+        }
+    }
+
+
+    // Objetivo: Cancelar las acciones de actualizar y eliminar
+    private void cancelarAccion(ActionEvent actionEvent) {
+        tblRuta.getSelectionModel().clearSelection();
+        rutaSeleccionada = null;
+        cmbBuscar.getSelectionModel().clearSelection();
+        cargarDatos();
+        tblRuta.refresh();
+        btnCancelarAccion.setDisable(true);
+    }
+
+    // Objetivo: Cargar los id de las paradas en los comboBox
+    private void cargarOpcionesParada() {
+        // Obtener todas las paradas
+        List<Parada> paradas = crudInstancia.getParada();
+        // Extraer solo los id de parada
+        ObservableList<String> ids = FXCollections.observableArrayList();
+        for (Parada p : paradas) {
+            ids.add(p.getIdParada());
+        }
+        // Asignar la lista a ambos ComboBoxes
+        cmboxOrigen.setItems(ids);
+        cmboxDestino.setItems(ids);
+    }
+
+    // Objetivo: Cargar los id de las ruta en los comboBox
+    private void cargarOpcionesRuta() {
+        List<List<Ruta>> rutas = crudInstancia.getRuta();
+        List<String> nombresDeRutas = new ArrayList<>();
+        for (List<Ruta> listaRutas : rutas) {
+            for (Ruta ruta : listaRutas) {
+                nombresDeRutas.add(ruta.getNombreRuta());
+            }
+        }
+        ObservableList<String> ids = FXCollections.observableArrayList(nombresDeRutas);
+        cmbBuscar.setItems(ids);
+    }
+
+
+    //Objetivo: cargar los datos de la tabla en el formulario para actualizar
+    private void mostrarDetallesRuta(Ruta ruta) {
+        rutaSeleccionada = ruta;
+        if (ruta != null) {
+            // Cargar datos a los campos
+            txtCod.setText(ruta.getIdRuta());
+            txtNombreR.setText(ruta.getNombreRuta());
+            spnDistancia.getValueFactory().setValue(ruta.getDistanciaRuta());
+            spnCosto.getValueFactory().setValue((double) ruta.getCostoRuta());
+            spnTransbordo.getValueFactory().setValue(ruta.getCantidadTransbordo());
+            spnTiempo.getValueFactory().setValue(ruta.getTiempoViaje());
+            cmboxOrigen.setValue(ruta.getOrigenRuta());
+            cmboxDestino.setValue(ruta.getDestinoRuta());
+            // Deshabilitar campos para el actualizar
+            txtCod.setDisable(true);
+            cmboxOrigen.setDisable(true);
+            cmboxDestino.setDisable(true);
+            btnGuardar.setDisable(true);
+            btnActualizar.setDisable(false);
+            btneliminar.setDisable(false);
+            btnCancelarAccion.setDisable(false);
+        } else {
+            limpiarCampos();
+            // Restaurar a modo Guardar
+            txtCod.setDisable(true);
+            cmboxOrigen.setDisable(false);
+            cmboxDestino.setDisable(false);
+            btnGuardar.setDisable(false);
+            btnActualizar.setDisable(true);
+            btneliminar.setDisable(true);
+            btnCancelarAccion.setDisable(true);
         }
     }
 
@@ -285,7 +337,7 @@ public class RutaController implements Initializable {
         tblRuta.setItems(listaRutasO);
     }
 
-    //Objetivo: Limpiar los campos despues de una acción
+    //Objetivo: Limpiar los campos después de una acción
     private void limpiarCampos() {
         txtCod.setText(generateNextRouteId());
         txtNombreR.clear();
@@ -308,12 +360,12 @@ public class RutaController implements Initializable {
 
     // Métodos para general el id automático
     private String generateNextRouteId() {
-        return String.format("R%03d", nextRouteId);
+        return String.format("R%03d", generarId);
     }
 
     private void setInitialRouteId() {
         int maxIdInDB = crudInstancia.getMaxIdRuta();
-        nextRouteId = maxIdInDB + 1;
+        generarId = maxIdInDB + 1;
         txtCod.setText(generateNextRouteId());
     }
 
