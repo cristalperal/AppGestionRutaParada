@@ -14,21 +14,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="pnlPrincipal" fx:id="pnlPrincipal" prefHeight="502.0" prefWidth="934.0" style="-fx-background-color: #404258;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.ParadaController">
+<AnchorPane id="pnlPrincipal" fx:id="pnlPrincipal" prefHeight="536.0" prefWidth="1010.0" style="-fx-background-color: #404258;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.ParadaController">
    <children>
-      <Pane id="pnl" fx:id="pnl" prefHeight="50.0" prefWidth="934.0" style="-fx-background-color: #37353E;">
+      <Pane id="pnl" fx:id="pnl" prefHeight="50.0" prefWidth="1010.0" style="-fx-background-color: #37353E;">
          <children>
-            <Label layoutX="451.0" layoutY="14.0" prefHeight="23.0" prefWidth="200.0" text="Gestión de Paradas" textFill="#fdf6f6">
+            <Label layoutX="479.0" layoutY="14.0" prefHeight="23.0" prefWidth="200.0" text="Gestión de Paradas" textFill="#fdf6f6">
                <font>
                   <Font name="Arial Bold Italic" size="18.0" />
                </font>
             </Label>
-            <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="304.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="332.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Imagenes/logo.png" />
                </image>
             </ImageView>
-            <Label layoutX="339.0" layoutY="14.0" prefHeight="23.0" prefWidth="112.0" text="GeoParada" textFill="#fdf6f6">
+            <Label layoutX="367.0" layoutY="14.0" prefHeight="23.0" prefWidth="112.0" text="GeoParada" textFill="#fdf6f6">
                <font>
                   <Font name="Arial Bold" size="20.0" />
                </font>
@@ -72,16 +72,28 @@
          </children>
       </VBox>
       <Button fx:id="btnGuardar" layoutX="96.0" layoutY="374.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #0275d8;" text="Guardar" textFill="#f6f2f2" />
-      <Button fx:id="btnActualizar" disable="true" layoutX="697.0" layoutY="425.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="101.0" style="-fx-background-color: #0275d8;" text="Actualizar" textFill="#f6f2f2" />
-      <Button fx:id="btnEliminar" disable="true" layoutX="808.0" layoutY="425.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="101.0" style="-fx-background-color: #0275d8;" text="Eliminar" textFill="#f6f2f2" />
-      <TableView fx:id="tblParadas" layoutX="345.0" layoutY="66.0" prefHeight="343.0" prefWidth="565.0" style="-fx-text-fill: black">
+      <Button fx:id="btnActualizar" disable="true" layoutX="764.0" layoutY="474.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #0275d8;" text="Actualizar" textFill="#f6f2f2" />
+      <Button fx:id="btnEliminar" disable="true" layoutX="884.0" layoutY="474.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #0275d8;" text="Eliminar" textFill="#f6f2f2" />
+      <TableView fx:id="tblParadas" layoutX="350.0" layoutY="118.0" prefHeight="343.0" prefWidth="646.0" style="-fx-text-fill: black">
         <columns>
             <TableColumn fx:id="colID" prefWidth="100.0" text="ID" />
-            <TableColumn fx:id="colNombre" prefWidth="150.0" text="Nombre" />
-            <TableColumn fx:id="colDireccion" prefWidth="150.0" text="Dirección" />
-            <TableColumn fx:id="colTipoT" prefWidth="150.0" text="Tipo Transporte" />
+            <TableColumn fx:id="colNombre" prefWidth="191.66668701171875" text="Nombre" />
+            <TableColumn fx:id="colDireccion" prefWidth="212.00006103515625" text="Dirección" />
+            <TableColumn fx:id="colTipoT" prefWidth="140.0" text="Tipo Transporte" />
         </columns>
       </TableView>
-      <Button fx:id="btnCancelarAccion" disable="true" layoutX="589.0" layoutY="425.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="101.0" style="-fx-background-color: #0275d8;" text="Cancelar Acción" textFill="#f6f2f2" />
+      <Button fx:id="btnCancelarAccion" disable="true" layoutX="642.0" layoutY="474.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #0275d8;" text="Cancelar Acción" textFill="#f6f2f2" />
+      <Label layoutX="714.0" layoutY="70.0" prefHeight="20.0" prefWidth="93.0" text="Buscar Parada" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtBuscar" accessibleText="ID parada" layoutX="808.0" layoutY="68.0" prefHeight="25.0" prefWidth="121.0" />
+      <Button fx:id="btnBuscar" layoutX="933.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" style="-fx-background-color: #0275d8;" />
+      <ImageView fitHeight="23.0" fitWidth="28.0" layoutX="944.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Imagenes/busqueda.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

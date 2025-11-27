@@ -115,6 +115,32 @@ public class Crud {
         return false;
     }
 
+    // Objetivo: Busca una ruta específica dado su origen y destino
+    public Ruta buscarRuta(String idOrigen, String idDestino) {
+        //  Obtener la lista de paradas para encontrar el índice del origen
+        List<Parada> paradas = paradaDAO.findAll();
+        int indexOrigen = -1;
+        for (int i = 0; i < paradas.size(); i++) {
+            if (paradas.get(i).getIdParada().equals(idOrigen)) {
+                indexOrigen = i;
+                break;
+            }
+        }
+
+        if (indexOrigen != -1) {
+            // Obtener la lista de rutas salientes de ese origen
+            List<Ruta> rutasSalientes = rutaDAO.findByOrigen(idOrigen);
+
+            //Buscar la ruta cuyo destino coincida
+            for (Ruta r : rutasSalientes) {
+                if (r.getDestinoRuta().equals(idDestino)) {
+                    return r;
+                }
+            }
+        }
+        return null;
+    }
+
     // Obtener el Grafo completo
     public Grafo obtenerGrafo() {
         Grafo grafo = new Grafo();

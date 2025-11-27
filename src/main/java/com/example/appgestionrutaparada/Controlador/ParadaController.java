@@ -263,8 +263,7 @@ public class ParadaController implements Initializable {
     }
 
     private void setInitialRouteId() {
-// Asume que ParadaDAO tiene el método findMaxNumericId()
-        int maxIdInDB = crudInstancia.getMaxIdParada(); // <--- Requiere este método en Crud
+        int maxIdInDB = crudInstancia.getMaxIdParada();
         nextRouteId = maxIdInDB + 1;
         txtCod.setText(generateNextRouteId());
     }

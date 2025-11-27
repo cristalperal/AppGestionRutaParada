@@ -54,7 +54,6 @@ public class Dijkstra {
 
     //Objetivo: Lo que hace este algoritmo es recorrer la lita de ruta desde el destino hasta el origen, si la ruta existe lo añade al principio de la lista
     private List<Ruta> reconstruirCamino(Grafo grafo, Map<String, String> anterior, String idOrigen, String idDestino) {
-
         List<Ruta> camino = new LinkedList<>();
         if (!anterior.containsKey(idDestino)) {
             return camino;

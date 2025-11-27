@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="625.0" prefWidth="1048.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.RutaController">
+<AnchorPane prefHeight="625.0" prefWidth="1048.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appgestionrutaparada.Controlador.RutaController">
    <children>
       <AnchorPane id="pnlPrincipal" fx:id="pnlPrincipal" layoutX="-16.0" layoutY="-1.0" prefHeight="725.0" prefWidth="1115.0" style="-fx-background-color: #404258;">
          <children>
@@ -103,21 +103,33 @@
                </children>
             </VBox>
             <Button id="btnGuardar" fx:id="btnGuardar" layoutX="86.0" layoutY="645.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #0275d8;" text="Guardar" textFill="#f6f2f2" />
-            <Button id="btnActualizar" fx:id="btnActualizar" disable="true" layoutX="783.0" layoutY="525.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #0275d8;" text="Actualizar" textFill="#f6f2f2" />
-            <Button id="btneliminar" fx:id="btneliminar" disable="true" layoutX="951.0" layoutY="525.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #0275d8;" text="Eliminar" textFill="#f6f2f2" />
-            <TableView fx:id="tblRuta" layoutX="355.0" layoutY="112.0" prefHeight="397.0" prefWidth="747.0">
+            <Button id="btnActualizar" fx:id="btnActualizar" disable="true" layoutX="781.0" layoutY="524.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #0275d8;" text="Actualizar" textFill="#f6f2f2" />
+            <Button id="btneliminar" fx:id="btneliminar" disable="true" layoutX="949.0" layoutY="524.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #0275d8;" text="Eliminar" textFill="#f6f2f2" />
+            <TableView fx:id="tblRuta" layoutX="353.0" layoutY="111.0" prefHeight="397.0" prefWidth="747.0">
                <columns>
                    <TableColumn fx:id="colID" prefWidth="74.666748046875" text="ID" />
-                   <TableColumn fx:id="colNombre" prefWidth="116.6666259765625" text="Nombre" />
-                   <TableColumn fx:id="colDistancia" prefWidth="89.3333740234375" text="Distancia" />
-                   <TableColumn fx:id="colCosto" prefWidth="59.3333740234375" text="Costo" />
-                   <TableColumn fx:id="colTransbordos" prefWidth="93.33331298828125" text="Transbordos" />
-                   <TableColumn fx:id="colTiempo" prefWidth="66.0" text="Tiempo" />
-                   <TableColumn fx:id="colParadaOrigen" prefWidth="116.6666259765625" text="Parada Origen" />
-                   <TableColumn fx:id="colParadaDestino" prefWidth="129.3333740234375" text="Parada Destino" />
+                   <TableColumn fx:id="colNombre" prefWidth="211.99993896484375" text="Nombre" />
+                   <TableColumn fx:id="colDistancia" prefWidth="87.3333740234375" text="Distancia" />
+                   <TableColumn fx:id="colCosto" prefWidth="59.33343505859375" text="Costo" />
+                   <TableColumn fx:id="colTransbordos" prefWidth="94.666748046875" text="Transbordos" />
+                   <TableColumn fx:id="colTiempo" prefWidth="65.333251953125" text="Tiempo" />
+                   <TableColumn fx:id="colParadaOrigen" prefWidth="76.0" text="Origen" />
+                   <TableColumn fx:id="colParadaDestino" prefWidth="79.3333740234375" text="Destino" />
                </columns>
             </TableView>
-            <Button id="btnCancelarAccion" fx:id="btnCancelarAccion" disable="true" layoutX="618.0" layoutY="525.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #0275d8;" text="Cancelar Acción" textFill="#f6f2f2" />
+            <Button id="btnCancelarAccion" fx:id="btnCancelarAccion" disable="true" layoutX="616.0" layoutY="524.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #0275d8;" text="Cancelar Acción" textFill="#f6f2f2" />
+            <Label layoutX="848.0" layoutY="72.0" prefHeight="20.0" prefWidth="79.0" text="Buscar Ruta" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtBuscar" accessibleText="ID parada" layoutX="928.0" layoutY="69.0" prefHeight="25.0" prefWidth="121.0" />
+            <Button fx:id="btnBuscar" layoutX="1053.0" layoutY="69.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" style="-fx-background-color: #0275d8;" />
+            <ImageView fitHeight="23.0" fitWidth="28.0" layoutX="1064.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Imagenes/busqueda.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

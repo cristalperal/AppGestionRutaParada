@@ -2,6 +2,8 @@ package com.example.appgestionrutaparada.Controlador;
 
 import com.example.appgestionrutaparada.Logico.Crud;
 import com.example.appgestionrutaparada.Logico.Dijkstra;
+import com.example.appgestionrutaparada.Logico.FloydWarshall;
+import com.example.appgestionrutaparada.Logico.FloydWarshallResult;
 import com.example.appgestionrutaparada.Modelo.Grafo;
 import com.example.appgestionrutaparada.Modelo.Parada;
 import com.example.appgestionrutaparada.Modelo.Ruta;
@@ -97,17 +99,29 @@ public class MenuPController implements Initializable {
 
     private Crud crudInstancia;
     private Dijkstra dijkstra = new Dijkstra();
+    private FloydWarshall floydWarshall = new FloydWarshall();
+    private FloydWarshallResult fwDistanciaResult;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         pnlResultados.setVisible(false);
         crudInstancia = Crud.getInstancia();
+
+        Grafo grafo = crudInstancia.obtenerGrafo();
+
+        if (grafo.getParada().size() > 0) {
+            fwDistanciaResult = floydWarshall.calcularTodoParParadas(grafo, "distancia");
+        } else {
+            fwDistanciaResult = null;
+        }
+
         cargarOpcionesParada();
         btnCalcularRuta.setOnAction(this::CalcularRuta);
         btnLimpiarResultados.setOnAction(this::LimpiarResultados);
         // Limpiar al inicio
         limpiarCamposResultados();
         MostrarRutasParadasActivas();
+
 
     }
 
@@ -139,9 +153,21 @@ public class MenuPController implements Initializable {
         //Crear grafo
         Grafo grafo = crudInstancia.obtenerGrafo();
 
+        //dijkstra
         //Si no hay ruta que conecte las paradas
-        List<Ruta> VerificarDistancia = dijkstra.calcularRutaCorta(grafo, idOrigen, idDestino, "distancia");
+       /* List<Ruta> VerificarDistancia = dijkstra.calcularRutaCorta(grafo, idOrigen, idDestino, "distancia");
         if (VerificarDistancia.isEmpty()) {
+            limpiarCamposResultados();
+            pnlResultados.setVisible(false);
+            mostrarAlerta("Ruta No Disponible", "No se pudo encontrar ninguna ruta que conecte \n" + nombreOrigen + " con " + nombreDestino, Alert.AlertType.INFORMATION);
+            return;
+        } */
+
+        // Floy Warshall, distancia
+        List<String> caminoIdsDistancia = fwDistanciaResult.reconstruirCaminoParadas(idOrigen, idDestino);
+        List<Ruta> caminoDistancia = reconstruirRutasDesdeParadas(grafo, caminoIdsDistancia);
+        // Si no hay ruta que conecte las paradas
+        if (caminoDistancia.isEmpty()) {
             limpiarCamposResultados();
             pnlResultados.setVisible(false);
             mostrarAlerta("Ruta No Disponible", "No se pudo encontrar ninguna ruta que conecte \n" + nombreOrigen + " con " + nombreDestino, Alert.AlertType.INFORMATION);
@@ -154,7 +180,7 @@ public class MenuPController implements Initializable {
 
         // Algoritmo de dijkstra para cada criterio
         // Distancia
-        List<Ruta> caminoDistancia = dijkstra.calcularRutaCorta(grafo, idOrigen, idDestino, "distancia");
+        //List<Ruta> caminoDistancia = dijkstra.calcularRutaCorta(grafo, idOrigen, idDestino, "distancia");
         mostrarResultadoEnPanel(caminoDistancia, "DISTANCIA");
 
         // Tiempo
@@ -168,6 +194,28 @@ public class MenuPController implements Initializable {
         // Costo
         List<Ruta> caminoCosto = dijkstra.calcularRutaCorta(grafo, idOrigen, idDestino, "costo");
         mostrarResultadoEnPanel(caminoCosto, "COSTO");
+    }
+
+    private List<Ruta> reconstruirRutasDesdeParadas(Grafo grafo, List<String> caminoParadas) {
+        List<Ruta> caminoRutas = new java.util.LinkedList<>();
+
+        if (caminoParadas == null || caminoParadas.size() < 2) {
+            return caminoRutas;
+        }
+
+        for (int i = 0; i < caminoParadas.size() - 1; i++) {
+            String idOrigen = caminoParadas.get(i);
+            String idDestino = caminoParadas.get(i + 1);
+
+            Ruta ruta = crudInstancia.buscarRuta(idOrigen, idDestino);
+
+            if (ruta != null) {
+                caminoRutas.add(ruta);
+            } else {
+                return new java.util.LinkedList<>();//si no encontro un camino valido
+            }
+        }
+        return caminoRutas;
     }
 
     //Objetivo: Mostrar los resultados del algoritmo de Dijkstra en el panel usando el calculo para mostrar el mejor camino
@@ -306,9 +354,7 @@ public class MenuPController implements Initializable {
     }
 
 
-    /**
-     * Método genérico para cargar y mostrar una nueva ventana de forma modal.
-     */
+    //Método genérico para cargar y mostrar una nueva ventana de forma modal.
     private void abrirNuevaVentana(String fxml, String titulo) {
         try {
             //  Cargar el FXML de la nueva ventana
