@@ -47,7 +47,7 @@ public class Crud {
         return listaDeAdyacencia;
     }
 
-    //------ Métodos de Parada ---------
+    //------ MÉTODOS DE PARADA ---------
 
     //Objetivo: Agregar una parada a la lista
     public boolean agregarParada(Parada p) {
@@ -89,7 +89,12 @@ public class Crud {
         return paradaDAO.findByNameP(nombreParada);
     }
 
-    // ------- Métodos de Ruta --------
+    // Devolver una parada por su id
+    public Parada buscarParadaPorId(String idParada) {
+        return paradaDAO.findById(idParada);
+    }
+
+    // ------- MÉTODOS DE RUTA --------
 
     //Objetivo: Agregar una ruta a la lista, tambien se obtiene la parada de origen y destino
     public boolean agregarRuta(Ruta r) {
@@ -152,7 +157,7 @@ public class Crud {
         return rutaDAO.findByNameR(nombreRuta);
     }
 
-    // ------ Métodos del grafo ------
+    // ------ MÉTODOS DE GRAFO ------
 
     // Obtener el Grafo completo
     public Grafo obtenerGrafo() {
@@ -162,7 +167,7 @@ public class Crud {
         return grafo;
     }
 
-    // ---- Métodos de utilidades -----
+    // ---- MÉTODOS DE UTILIDADES -----
 
     // Métodos para la información dinámica del menú
     public int paradasActivas() {
