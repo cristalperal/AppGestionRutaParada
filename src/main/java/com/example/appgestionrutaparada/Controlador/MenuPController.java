@@ -2,12 +2,8 @@ package com.example.appgestionrutaparada.Controlador;
 
 import com.brunomnsilva.smartgraph.graph.Digraph;
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
-import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
-import com.brunomnsilva.smartgraph.graphview.SmartRandomPlacementStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
-
-//com.brunomnsilva.smartgraph.graphview.SmartCircularPlacementStrategy;
-
+import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.example.appgestionrutaparada.Logico.Crud;
 import com.example.appgestionrutaparada.Logico.Dijkstra;
 import com.example.appgestionrutaparada.Logico.FloydWarshall;
@@ -30,7 +26,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 
 import java.io.IOException;
 import java.net.URL;
@@ -114,21 +109,40 @@ public class MenuPController implements Initializable {
     private FloydWarshallResult fwDistanciaResult;
     private SmartGraphPanel<String, String> graphView;
 
+    // Variables de estado para la selección en el grafo
+    private String paradaSeleccionadaOrigen = null;
+    private String paradaSeleccionadaDestino = null;
+
     // DATOS DE INICIO
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         pnlResultados.setVisible(false);
         crudInstancia = Crud.getInstancia();
+        inicializarGrafo();
+        cargarOpcionesParada();
+        btnCalcularRuta.setOnAction(this::CalcularRuta);
+        btnLimpiarResultados.setOnAction(this::LimpiarResultados);
+        // Limpiar al inicio
+        limpiarCamposResultados();
+        MostrarRutasParadasActivas();
+        agregarResaltadoGrafo();
+
+    }
+
+    // ------------- MÉTODOS DEL GRAFO ------------
+
+    //Objetivo: Inicializar el grafo, con sus nodos y aristas
+    private void inicializarGrafo() {
 
         Grafo grafo = crudInstancia.obtenerGrafo();
         // para el algoritmo de floyd
-        if (grafo.getParada().size() > 0) {
+        if (!grafo.getParada().isEmpty()) {
             fwDistanciaResult = floydWarshall.calcularTodoParParadas(grafo, "distancia");
         } else {
             fwDistanciaResult = null;
         }
 
-        if (grafo != null && grafo.getParada().size() > 0) {
+        if (!grafo.getParada().isEmpty()) {
             try {
                 // Convertir el modelo de grafo
                 Digraph<String, String> smartGraphModel = construirDigraph(grafo);
@@ -138,16 +152,16 @@ public class MenuPController implements Initializable {
                         smartGraphModel,
                         new SmartCircularSortedPlacementStrategy()
                 );
-
                 // Añadir al Pane
                 pnlMapa.getChildren().add(graphView);
-                // Asegurar que  se ajuste al tamaño del Pane
+                // Asegurar que se ajuste al tamaño del Pane
                 graphView.prefWidthProperty().bind(pnlMapa.widthProperty());
                 graphView.prefHeightProperty().bind(pnlMapa.heightProperty());
 
                 javafx.application.Platform.runLater(() -> {
                     try {
                         graphView.init();
+                        agregarSeleccionGrafo();
                     } catch (IllegalStateException e) {
                         System.err.println("Error al inicializar la visualización del grafo : " + e.getMessage());
                     }
@@ -159,19 +173,9 @@ public class MenuPController implements Initializable {
             }
         }
 
-        cargarOpcionesParada();
-        btnCalcularRuta.setOnAction(this::CalcularRuta);
-        btnLimpiarResultados.setOnAction(this::LimpiarResultados);
-        // Limpiar al inicio
-        limpiarCamposResultados();
-        MostrarRutasParadasActivas();
-        agregarListenersDeResaltado();
     }
 
-
-
-    // ------------- MÉTODOS DEL GRAFO ------------
-
+    //Objetivo: Construir el diagrama del grafo con las paradas como nodos y las rutas como aristas
     private Digraph<String, String> construirDigraph(Grafo grafo) {
         Digraph<String, String> g = new DigraphEdgeList<>();
 
@@ -180,12 +184,11 @@ public class MenuPController implements Initializable {
         if (paradas != null) {
             for (Parada p : paradas) {
                 if (p != null) {
-                    // Usamos el Nombre de la Parada como valor del Vértice
+                    // Usamos el Nombre de la Parada como valor del nodo
                     g.insertVertex(p.getNombreParada());
                 }
             }
         }
-
         // Agregar todas las aristas
         List<List<Ruta>> listasRuta = grafo.getRuta();
         if (listasRuta != null) {
@@ -215,18 +218,85 @@ public class MenuPController implements Initializable {
 
     // ------------- MÉTODOS PARA PODER SELECCIONAR EN EL GRAFO ------------
 
+    //Objetivo: Permitir seleccionar un origen y un destino directamente del grafo, estos se cargaran a los combo box y se podra calcular la ruta
+    private void agregarSeleccionGrafo() {
+        if (graphView == null) return;
 
+        graphView.getSmartVertices().forEach(v -> {
+
+           // Se hara click en el label del nodo
+            javafx.scene.Node nodo = (javafx.scene.Node) v.getStylableLabel();
+
+            String nombreParada = v.getUnderlyingVertex().element();
+
+            nodo.setOnMouseClicked(event -> {
+
+                // Si no hay origen seleccionado, este será el origen
+                if (paradaSeleccionadaOrigen == null || paradaSeleccionadaDestino != null) {
+
+                    //Origen
+                    if (paradaSeleccionadaOrigen != null) {
+                        // Si ya hay una selección, limpiamos completamente lo seleccionado
+                        LimpiarSeleccionGrafo();
+                    }
+
+                    paradaSeleccionadaOrigen = nombreParada;
+                    paradaSeleccionadaDestino = null; // Reiniciar Destino
+
+                    cmboxOrigen.getSelectionModel().select(nombreParada);
+                    cmboxDestino.getSelectionModel().clearSelection(); // Limpiar combo de destino
+
+                    // Resaltar
+                    v.addStyleClass("origen");
+
+                    mostrarAlerta("Origen Seleccionado", "Origen: " + nombreParada, Alert.AlertType.INFORMATION);
+
+                } else {
+                    // Destino, tiene que existir un origen
+                    if (paradaSeleccionadaOrigen.equals(nombreParada)) {
+                        mostrarAlerta("Error", "El destino no puede ser igual al origen.", Alert.AlertType.WARNING);
+                        return;
+                    }
+
+                    paradaSeleccionadaDestino = nombreParada;
+                    cmboxDestino.getSelectionModel().select(nombreParada);
+
+                    // Resaltar el destino
+                    v.addStyleClass("destino");
+
+                    mostrarAlerta("Destino Seleccionado", "Origen: " + paradaSeleccionadaOrigen + "\nDestino: " + nombreParada, Alert.AlertType.INFORMATION);
+                }
+            });
+        });
+    }
+
+    //Objetivo: Limpiar la seleccion que se haga en el grafo
+    void LimpiarSeleccionGrafo() {
+        if (graphView == null) return;
+
+        // CORRECCIÓN: Usamos getModel().vertices()
+        graphView.getModel().vertices().forEach(v -> {
+            String nombreParada = v.element().toString();
+            var vertexNode = graphView.getStylableVertex(nombreParada);
+            if (vertexNode != null) {
+                vertexNode.removeStyleClass("origen");
+               vertexNode.removeStyleClass("destino");
+            }
+        });
+    }
 
 
     // ------------- MÉTODOS DE VISUALIZACIÓN DE RUTA ------------
 
-    private void agregarListenersDeResaltado() {
+   //Objectivo: Establecer la interactividad del resaltado de rutas, asigna la acción de resaltar la ruta óptima en el grafo
+    private void agregarResaltadoGrafo() {
         lblDistanciaD.setOnMouseClicked(e -> resaltarRutaCriterio("distancia"));
         lblTiempoTi.setOnMouseClicked(e -> resaltarRutaCriterio("tiempo"));
         lblCantTrasbordoTr.setOnMouseClicked(e -> resaltarRutaCriterio("transbordo"));
         lblCostoC.setOnMouseClicked(e -> resaltarRutaCriterio("costo"));
     }
 
+     //Objectivo: Obtiene el camino más corto entre el origen y el destino, lo resalta en el grafo con el color correspondiente.
     private void resaltarRutaCriterio(String criterio) {
         String nombreOrigen = lblOrigen.getText();
         String nombreDestino = lblDestino.getText();
@@ -257,10 +327,11 @@ public class MenuPController implements Initializable {
         }
 
         // Resaltar la ruta con el color correspondiente
-        highlightRoute(camino, claseCSS);
+        ResaltarRuta(camino, claseCSS);
     }
 
-    private void clearRouteHighlight(boolean cleanNodes) {
+    //Objectivo: Remueve las clases CSS de resaltado de todas las aristas para despintar la ruta anterior.
+    private void LimpiarRutaResaltada(boolean cleanNodes) {
         if (graphView == null) return;
 
         graphView.getSmartEdges().forEach(edge -> {
@@ -278,10 +349,11 @@ public class MenuPController implements Initializable {
         }
     }
 
-    private void highlightRoute(List<Ruta> camino, String styleClass) {
+    // objectivo: Aplicar el estilo visual a un camino específico en el grafo, recorre la lista de rutas del camino y aplica la clase CSS a cada arista
+    private void ResaltarRuta(List<Ruta> camino, String styleClass) {
         if (graphView == null || camino == null || camino.isEmpty()) return;
 
-        clearRouteHighlight(false);
+        LimpiarRutaResaltada(false);
 
         // Resaltar el nodo Origen
         Parada origen = crudInstancia.buscarParadaPorId(camino.get(0).getOrigenRuta());
@@ -322,10 +394,10 @@ public class MenuPController implements Initializable {
         }
     }
 
-
-    private void highlightBestRoute(List<Ruta> caminoDistancia, List<Ruta> caminoTiempo, List<Ruta> caminoTransbordo, List<Ruta> caminoCosto) {
+    //Objectivo: Muestra las cuatro rutas óptimas (Distancia, Tiempo, Transbordo, Costo) al mismo tiempo, utilizando los colores de cada criterio.
+    private void ResaltarMejorRuta(List<Ruta> caminoDistancia, List<Ruta> caminoTiempo, List<Ruta> caminoTransbordo, List<Ruta> caminoCosto) {
         // Limpiamos todos los resaltados anteriores
-        clearRouteHighlight(true);
+        LimpiarRutaResaltada(true);
 
         // Si no hay caminos
         if (caminoDistancia.isEmpty()) {
@@ -395,17 +467,6 @@ public class MenuPController implements Initializable {
         lblDestino.setText(nombreDestino);
         //Crear grafo
         Grafo grafo = crudInstancia.obtenerGrafo();
-
-        //dijkstra
-        //Si no hay ruta que conecte las paradas
-       /* List<Ruta> VerificarDistancia = dijkstra.calcularRutaCorta(grafo, idOrigen, idDestino, "distancia");
-        if (VerificarDistancia.isEmpty()) {
-            limpiarCamposResultados();
-            pnlResultados.setVisible(false);
-            mostrarAlerta("Ruta No Disponible", "No se pudo encontrar ninguna ruta que conecte \n" + nombreOrigen + " con " + nombreDestino, Alert.AlertType.INFORMATION);
-            return;
-        } */
-
         // Floy Warshall, distancia
         List<String> caminoIdsDistancia = fwDistanciaResult.reconstruirCaminoParadas(idOrigen, idDestino);
         List<Ruta> caminoDistancia = reconstruirRutasDesdeParadas(grafo, caminoIdsDistancia);
@@ -413,7 +474,7 @@ public class MenuPController implements Initializable {
         if (caminoDistancia.isEmpty()) {
             limpiarCamposResultados();
             pnlResultados.setVisible(false);
-            clearRouteHighlight(true);
+            LimpiarRutaResaltada(true);
             mostrarAlerta("Ruta No Disponible", "No se pudo encontrar ninguna ruta que conecte \n" + nombreOrigen + " con " + nombreDestino, Alert.AlertType.INFORMATION);
             return;
         }
@@ -421,9 +482,6 @@ public class MenuPController implements Initializable {
         pnlResultados.setVisible(true);
         pnlGeneralNombre.setVisible(false);
 
-        // Algoritmo de dijkstra para cada criterio
-
-        //List<Ruta> caminoDistancia = dijkstra.calcularRutaCorta(grafo, idOrigen, idDestino, "distancia");
         List<Ruta> caminoTiempo = dijkstra.calcularRutaCorta(grafo, idOrigen, idDestino, "tiempo");
         List<Ruta> caminoTransbordo = dijkstra.calcularRutaCorta(grafo, idOrigen, idDestino, "transbordo");
         List<Ruta> caminoCosto = dijkstra.calcularRutaCorta(grafo, idOrigen, idDestino, "costo");
@@ -433,7 +491,7 @@ public class MenuPController implements Initializable {
         mostrarResultadoEnPanel(caminoTransbordo, "TRANSBORDO");
         mostrarResultadoEnPanel(caminoCosto, "COSTO");
 
-        highlightBestRoute(caminoDistancia, caminoTiempo, caminoTransbordo, caminoCosto);
+        ResaltarMejorRuta(caminoDistancia, caminoTiempo, caminoTransbordo, caminoCosto);
     }
 
     // Reconstruir el camino para el algoritmo de Floyd
@@ -466,7 +524,12 @@ public class MenuPController implements Initializable {
         if (camino == null || camino.isEmpty()) {
             return mejor; // Devuelve ceros si no hay camino
         }
-        mejor.transbordos = camino.size(); // Cada ruta en la lista es un transbordo
+
+        if (camino.size() <= 1) {
+            mejor.transbordos = 0;
+        } else {
+            mejor.transbordos = camino.size() - 1;
+        }
         for (Ruta r : camino) {
             mejor.distanciaTotal += r.getDistanciaRuta();
             mejor.tiempoTotal += r.getTiempoViaje();
@@ -483,7 +546,7 @@ public class MenuPController implements Initializable {
         int transbordos = 0;
     }
 
-    //Objetivo: Mostrar los resultados del algoritmo de Dijkstra en el panel usando el calculo para mostrar el mejor camino
+    //Objetivo: Mostrar los resultados del algoritmo de Dijkstra en el panel usando el cálculo para mostrar el mejor camino
     private void mostrarResultadoEnPanel(List<Ruta> camino, String panel) {
         MejorCamino mejorCamino = CalcularMejoresCaminos(camino);
         String distancia = String.format("%.1f", mejorCamino.distanciaTotal);
@@ -491,7 +554,7 @@ public class MenuPController implements Initializable {
         String costo = String.format("%.2f", mejorCamino.costoTotal);
         String transbordo = String.valueOf(mejorCamino.transbordos);
 
-        // Para mostrar segun cada criterio
+        // Para mostrar según cada criterio
         switch (panel.toUpperCase()) {
             case "DISTANCIA" -> {
                 // Distancia
@@ -551,6 +614,7 @@ public class MenuPController implements Initializable {
         lblDistanciaC.setText(text);
         lblTiempoC.setText(text);
         lblTransbC.setText(text);
+        LimpiarRutaResaltada(true);
 
     }
 
@@ -563,6 +627,7 @@ public class MenuPController implements Initializable {
         cmboxDestino.getSelectionModel().clearSelection();
         pnlGeneralNombre.setVisible(true);
         pnlResultados.setVisible(false);
+        LimpiarRutaResaltada(true);
     }
 
     // Objetivo: Cargar los nombres  de las paradas en los comboBox
@@ -590,6 +655,7 @@ public class MenuPController implements Initializable {
 
     //Objetivo: Refrescar el menu de inicio
     private void refrescarDatosMenu() {
+        inicializarGrafo();
         cargarOpcionesParada();
         cmboxOrigen.getSelectionModel().clearSelection();
         cmboxDestino.getSelectionModel().clearSelection();

@@ -126,7 +126,7 @@
                   <Separator layoutX="21.0" layoutY="482.0" prefHeight="4.0" prefWidth="309.0" style="-fx-background-color: #50577A;" />
                </children>
             </Pane>
-            <Pane fx:id="pnlResultados" layoutX="390.0" layoutY="79.0" prefHeight="267.0" prefWidth="1282.0" style="-fx-background-color: #474E68;" visible="false">
+            <Pane fx:id="pnlResultados" layoutX="390.0" layoutY="79.0" prefHeight="267.0" prefWidth="1282.0" style="-fx-background-color: #474E68;">
                <children>
                   <Label layoutX="26.0" layoutY="14.0" prefHeight="20.0" prefWidth="103.0" text="Resultados" textFill="WHITE">
                      <font>
@@ -134,16 +134,16 @@
                      </font>
                   </Label>
                   <Separator layoutX="26.0" layoutY="44.0" prefHeight="4.0" prefWidth="150.0" style="-fx-background-color: #50577A;" />
-                  <Pane fx:id="pnlDistancia" layoutX="14.0" layoutY="60.0" prefHeight="199.0" prefWidth="299.0" style="-fx-background-color: #50577A;">
+                  <Pane fx:id="pnlDistancia" layoutX="14.0" layoutY="60.0" prefHeight="199.0" prefWidth="299.0" style="-fx-background-color: #73AF6F;">
                      <children>
                         <Label layoutX="11.0" layoutY="13.0" prefHeight="20.0" prefWidth="115.0" text="Menor Distancia" textFill="#fffbfb">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="126.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="35.0" fitWidth="44.0" layoutX="124.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@Imagenes/distancia.png" />
+                              <Image url="@Imagenes/icons8-track-order-50.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="lblDistanciaD" layoutX="89.0" layoutY="49.0" prefHeight="27.0" prefWidth="52.0" text="0000" textFill="WHITE">
@@ -188,16 +188,16 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane fx:id="pnlTiempo" layoutX="329.0" layoutY="61.0" prefHeight="199.0" prefWidth="299.0" style="-fx-background-color: #50577A;">
+                  <Pane fx:id="pnlTiempo" layoutX="334.0" layoutY="60.0" prefHeight="199.0" prefWidth="299.0" style="-fx-background-color: #E07A5F;">
                      <children>
                         <Label layoutX="11.0" layoutY="13.0" prefHeight="20.0" prefWidth="103.0" text="Menor Tiempo" textFill="#fffbfb">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="114.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="35.0" fitWidth="45.0" layoutX="109.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@Imagenes/tiempo.png" />
+                              <Image url="@Imagenes/time2.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="lblTiempoTi" layoutX="101.0" layoutY="51.0" prefHeight="27.0" prefWidth="52.0" text="0000" textFill="WHITE">
@@ -242,16 +242,16 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane fx:id="pnlTransbordos" layoutX="647.0" layoutY="61.0" prefHeight="199.0" prefWidth="293.0" style="-fx-background-color: #50577A;">
+                  <Pane fx:id="pnlTransbordos" layoutX="648.0" layoutY="60.0" prefHeight="199.0" prefWidth="293.0" style="-fx-background-color: #AE75DA;">
                      <children>
                         <Label layoutX="14.0" layoutY="15.0" prefHeight="20.0" prefWidth="136.0" text="Menos Transbordos" textFill="#fffbfb">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="150.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="151.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@Imagenes/transbordos.png" />
+                              <Image url="@Imagenes/icons8-bus-50.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="lblCantTrasbordoTr" layoutX="63.0" layoutY="54.0" prefHeight="27.0" prefWidth="52.0" text="00" textFill="WHITE">
@@ -296,16 +296,16 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane fx:id="pnlCosto" layoutX="956.0" layoutY="61.0" prefHeight="199.0" prefWidth="299.0" style="-fx-background-color: #50577A;">
+                  <Pane fx:id="pnlCosto" layoutX="956.0" layoutY="61.0" prefHeight="199.0" prefWidth="299.0" style="-fx-background-color: #67B2D8;">
                      <children>
                         <Label layoutX="11.0" layoutY="13.0" prefHeight="20.0" prefWidth="103.0" text="Menor Costo" textFill="#fffbfb">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="100.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="99.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@Imagenes/costo.png" />
+                              <Image url="@Imagenes/money.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="lblCostoC" layoutX="98.0" layoutY="55.0" prefHeight="27.0" prefWidth="65.0" text="0000" textFill="WHITE">
@@ -350,12 +350,12 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Label layoutX="317.0" layoutY="7.0" prefHeight="20.0" prefWidth="103.0" text="Origen - " textFill="WHITE">
+                  <Label layoutX="334.0" layoutY="6.0" prefHeight="20.0" prefWidth="103.0" text="Origen - " textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="317.0" layoutY="32.0" prefHeight="25.0" prefWidth="79.0" text="Destino - " textFill="WHITE">
+                  <Label layoutX="334.0" layoutY="31.0" prefHeight="25.0" prefWidth="79.0" text="Destino - " textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -366,12 +366,12 @@
                         <Image url="@Imagenes/limpiar.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="lblOrigen" layoutX="388.0" layoutY="7.0" prefHeight="25.0" prefWidth="466.0" textFill="WHITE">
+                  <Label fx:id="lblOrigen" layoutX="405.0" layoutY="6.0" prefHeight="25.0" prefWidth="466.0" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblDestino" layoutX="395.0" layoutY="31.0" prefHeight="25.0" prefWidth="456.0" textFill="WHITE">
+                  <Label fx:id="lblDestino" layoutX="412.0" layoutY="30.0" prefHeight="25.0" prefWidth="456.0" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>

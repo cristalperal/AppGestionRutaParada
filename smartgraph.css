@@ -17,46 +17,67 @@ This should help you understand which styles you can apply to each type of eleme
 
 /* smartgraph.css */
 
+/* Estilo para el nodo Origen */
+.vertex.origen {
+    -fx-stroke: #4CAF50; /* Borde verde oscuro */
+    -fx-stroke-width: 5; /* Borde más grueso */
+    -fx-fill: #81C784;  /* Relleno verde claro */
+    -fx-effect: dropshadow(three-pass-box, #4CAF50, 15, 0.5, 0, 0); /* Sombra para destacarlo  */
+}
+
+/* Estilo para el nodo Destino */
+.vertex.destino {
+    -fx-stroke: #FF5722; /* Borde naranja/rojo oscuro */
+    -fx-stroke-width: 5; /* Borde más grueso */
+    -fx-fill: #FFAB91;  /* Relleno naranja claro */
+    -fx-effect: dropshadow(three-pass-box, #FF5722, 15, 0.5, 0, 0); /* Sombra para destacarlo  */
+}
+
+
 
 
 .edge.ruta-tiempo {
-    -fx-stroke: #FFC107; /* Amarillo/Ámbar */
+    -fx-stroke:  #E07A5F;
     -fx-stroke-width: 3;
     -fx-opacity: 1;
-    -fx-mark-color: #FFC107;
+    -fx-mark-color:  #E07A5F;
+    -fx-stroke-dash-array: none;
 }
 
 .edge.ruta-transbordo {
-    -fx-stroke: #9C27B0; /* Púrpura */
+    -fx-stroke:  #AE75DA;
     -fx-stroke-width: 3;
     -fx-opacity: 1;
-    -fx-mark-color: #9C27B0;
+    -fx-mark-color:  #AE75DA;
+    -fx-stroke-dash-array: none;
 }
 
 .edge.ruta-costo {
-    -fx-stroke: #00BCD4; /* Cian */
+    -fx-stroke:   #67B2D8;
     -fx-stroke-width: 3;
     -fx-opacity: 1;
-    -fx-mark-color: #00BCD4;
+    -fx-mark-color:  #67B2D8;
+    -fx-stroke-dash-array: none;
 }
 
 .edge.ruta-distancia {
-    -fx-stroke: #4CAF50; /* Verde */
+    -fx-stroke: #4CAF50;
     -fx-stroke-width: 3;
-    -fx-opacity: 1; /* Hace visible la arista */
-    -fx-mark-color: #4CAF50; /* Color de la flecha */
+    -fx-opacity: 1;
+    -fx-mark-color: #4CAF50;
+    -fx-stroke-dash-array: none;
 }
 
 .graph {
-    -fx-background-color: #F4FFFB;
+    -fx-background-color: #b4c7d6;
     /* you can use -fx-background-image to set a background image */
 }
 
 .vertex {
     -fx-stroke-width: 3;
-    -fx-stroke: #61B5F1;
+    -fx-stroke: #1e445a;
     -fx-stroke-type: inside; /* you should keep this if using arrows; it will keep the shape radius consistent. */
-    -fx-fill: #B1DFF7;
+    -fx-fill: #507687;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0.2, 0, 4);
 }
 
@@ -80,7 +101,7 @@ This should help you understand which styles you can apply to each type of eleme
 
 .edge {
     -fx-stroke-width: 2;
-    -fx-stroke: #FF6D66;
+    -fx-stroke: #1e445a;
     -fx-stroke-dash-array: 2 5 2 5; /* remove for clean lines */
     -fx-fill: transparent; /* important to keep for curved edges */
     -fx-stroke-line-cap: round;
@@ -92,9 +113,9 @@ This should help you understand which styles you can apply to each type of eleme
 }
 
 .edge-label {
-    -fx-font: normal 5pt "sans-serif";
+    -fx-font: normal 7pt "sans-serif";
     -fx-fill: white;
-    -fx-background-color: red;
+    -fx-background-color: #1d4b67;
     -fx-background-radius: 0;
     -fx-border-color: black;
     -fx-padding: 2px;

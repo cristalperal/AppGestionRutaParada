@@ -7,6 +7,7 @@ module com.example.appgestionrutaparada {
     requires org.kordamp.bootstrapfx.core;
     requires javafx.base;
     requires java.sql;
+    //requires smartgraph;
     requires com.brunomnsilva.smartgraph;
     //requires com.example.appgestionrutaparada;
 
