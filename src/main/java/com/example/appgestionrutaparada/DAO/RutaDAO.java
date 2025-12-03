@@ -61,7 +61,7 @@ public class RutaDAO {
     }
 
 
-    //Elimina rutas basadas en una Parada ID .
+    //Elimina rutas basadas en una Parada ID
     public void deleteRutasByParadaId(String idParada) {
         // La consulta elimina rutas que tienen la parada como origen o como destino
         final String sql = "DELETE FROM ruta WHERE origenRuta = ? OR destinoRuta = ?";
@@ -76,73 +76,6 @@ public class RutaDAO {
         }
     }
 
-    //Para listar (no se esta usando)
-    public List<Ruta> findAll() {
-        List<Ruta> list = new ArrayList<>();
-
-        final String sql = "SELECT * FROM ruta";
-
-        try (Connection connection = ConexionBd.getConnection()) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            while (resultSet.next()) {
-                Ruta ruta = new Ruta(
-                        resultSet.getString("idRuta"),
-                        resultSet.getString("nombreRuta"),
-                        resultSet.getInt("distanciaRuta"),
-                        resultSet.getFloat("costoRuta"),
-                        resultSet.getInt("cantidadTransbordo"),
-                        resultSet.getInt("tiempoViaje"),
-                        resultSet.getString("origenRuta"),
-                        resultSet.getString("destinoRuta")
-                );
-                list.add(ruta);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    //Para verificar existencia (no se esta usando)
-    public boolean exists(String idRuta) {
-        final String sql = "SELECT 1 FROM ruta WHERE idRuta = ?";
-        try (Connection conn = ConexionBd.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, idRuta);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // buscar ruta por id
-    public Ruta findById(String idRuta) {
-        final String sql = "SELECT * FROM ruta WHERE idRuta = ?";
-        try (Connection conn = ConexionBd.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, idRuta);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return new Ruta(
-                        rs.getString("idRuta"),
-                        rs.getString("nombreRuta"),
-                        rs.getInt("distanciaRuta"),
-                        rs.getFloat("costoRuta"),
-                        rs.getInt("cantidadTransbordo"),
-                        rs.getInt("tiempoViaje"),
-                        rs.getString("origenRuta"),
-                        rs.getString("destinoRuta")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     //Busca rutas que salen de una parada específica
     public List<Ruta> findByOrigen(String idOrigen) {

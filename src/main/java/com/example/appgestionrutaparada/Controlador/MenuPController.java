@@ -29,8 +29,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.function.BiConsumer;
 
 
 public class MenuPController implements Initializable {
@@ -215,7 +215,6 @@ public class MenuPController implements Initializable {
         return g;
     }
 
-
     // ------------- MÉTODOS PARA PODER SELECCIONAR EN EL GRAFO ------------
 
     //Objetivo: Permitir seleccionar un origen y un destino directamente del grafo, estos se cargaran a los combo box y se podra calcular la ruta
@@ -270,7 +269,7 @@ public class MenuPController implements Initializable {
         });
     }
 
-    //Objetivo: Limpiar la seleccion que se haga en el grafo
+    //Objetivo: Limpiar la selección que se haga en el grafo
     void LimpiarSeleccionGrafo() {
         if (graphView == null) return;
 
@@ -398,20 +397,18 @@ public class MenuPController implements Initializable {
     private void ResaltarMejorRuta(List<Ruta> caminoDistancia, List<Ruta> caminoTiempo, List<Ruta> caminoTransbordo, List<Ruta> caminoCosto) {
         // Limpiamos todos los resaltados anteriores
         LimpiarRutaResaltada(true);
-
         // Si no hay caminos
         if (caminoDistancia.isEmpty()) {
             return;
         }
-
         // Una estructura para mapear el id de ruta a sus criterios óptimos
-        java.util.Map<String, java.util.Set<String>> rutasOptimas = new java.util.HashMap<>();
+        Map<String, Set<String>> rutasOptimas = new HashMap<>();
 
         // Función auxiliar para registrar los id de ruta en el mapa
-        java.util.function.BiConsumer<List<Ruta>, String> registrarRuta = (camino, claseCSS) -> {
+        BiConsumer<List<Ruta>, String> registrarRuta = (camino, claseCSS) -> {
             for (Ruta ruta : camino) {
                 String idRuta = ruta.getIdRuta();
-                rutasOptimas.computeIfAbsent(idRuta, k -> new java.util.HashSet<>()).add(claseCSS);
+                rutasOptimas.computeIfAbsent(idRuta, k -> new HashSet<>()).add(claseCSS);
             }
         };
 
@@ -420,9 +417,9 @@ public class MenuPController implements Initializable {
         registrarRuta.accept(caminoTransbordo, "ruta-transbordo");
         registrarRuta.accept(caminoCosto, "ruta-costo");
 
-        for (java.util.Map.Entry<String, java.util.Set<String>> entry : rutasOptimas.entrySet()) {
+        for (Map.Entry<String, Set<String>> entry : rutasOptimas.entrySet()) {
             String idRuta = entry.getKey();
-            java.util.Set<String> clasesCSS = entry.getValue();
+            Set<String> clasesCSS = entry.getValue();
 
             if (graphView.getStylableEdge(idRuta) != null) {
                 for (String clase : clasesCSS) {
@@ -474,6 +471,7 @@ public class MenuPController implements Initializable {
         if (caminoDistancia.isEmpty()) {
             limpiarCamposResultados();
             pnlResultados.setVisible(false);
+            pnlGeneralNombre.setVisible(true);
             LimpiarRutaResaltada(true);
             mostrarAlerta("Ruta No Disponible", "No se pudo encontrar ninguna ruta que conecte \n" + nombreOrigen + " con " + nombreDestino, Alert.AlertType.INFORMATION);
             return;
@@ -671,7 +669,7 @@ public class MenuPController implements Initializable {
             //  Cargar el FXML de la nueva ventana
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/appgestionrutaparada/vistas/" + fxml));
             Parent parent = fxmlLoader.load();
-            // Crear un nueva ventana
+            // Crear una nueva ventana
             Stage stage = new Stage();
             stage.setTitle(titulo);
             stage.setScene(new Scene(parent));

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.LinkedList;
 
-//Contiene el resultado del algoritmo de Floyd-Warshall,incluyendo las matrices de distancia y predecesores.
+//Contiene el resultado del algoritmo de Floyd-Warshall,incluyendo las matrices de distancia y predecesores
 
 public class FloydWarshallResult {
 
