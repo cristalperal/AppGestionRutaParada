@@ -696,6 +696,7 @@ public class MenuPController implements Initializable {
     @FXML
     public void AbrirGestionRuta(ActionEvent actionEvent) {
         abrirNuevaVentana("GestionarRutaV.fxml", "Gestión de Rutas");
+
     }
 
     //Objetivo:  Método genérico para las alertas
