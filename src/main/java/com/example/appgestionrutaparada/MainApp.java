@@ -23,7 +23,7 @@ public class MainApp extends Application {
             }
             stage.getIcons().add(applicationIcon);
         } catch (Exception e) {
-            System.err.println("Error al cargar el icono: /Imagenes/logo.png");
+            System.err.println("Error al cargar el icono:");
             e.printStackTrace();
         }
 
