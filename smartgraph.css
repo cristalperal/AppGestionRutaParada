@@ -19,21 +19,19 @@ This should help you understand which styles you can apply to each type of eleme
 
 /* Estilo para el nodo Origen */
 .vertex.origen {
-    -fx-stroke: #4CAF50; /* Borde verde oscuro */
-    -fx-stroke-width: 5; /* Borde más grueso */
-    -fx-fill: #81C784;  /* Relleno verde claro */
-    -fx-effect: dropshadow(three-pass-box, #4CAF50, 15, 0.5, 0, 0); /* Sombra para destacarlo  */
+    -fx-stroke: #4CAF50;
+    -fx-stroke-width: 5;
+    -fx-fill: #81C784;
+    -fx-effect: dropshadow(three-pass-box, #4CAF50, 15, 0.5, 0, 0);
 }
 
 /* Estilo para el nodo Destino */
 .vertex.destino {
-    -fx-stroke: #FF5722; /* Borde naranja/rojo oscuro */
-    -fx-stroke-width: 5; /* Borde más grueso */
-    -fx-fill: #FFAB91;  /* Relleno naranja claro */
-    -fx-effect: dropshadow(three-pass-box, #FF5722, 15, 0.5, 0, 0); /* Sombra para destacarlo  */
+    -fx-stroke: #FF5722;
+    -fx-stroke-width: 5;
+    -fx-fill: #FFAB91;
+    -fx-effect: dropshadow(three-pass-box, #FF5722, 15, 0.5, 0, 0);
 }
-
-
 
 
 .edge.ruta-tiempo {

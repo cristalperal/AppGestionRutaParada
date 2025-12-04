@@ -19,7 +19,7 @@ public class MainApp extends Application {
             String imagePath = "/com/example/appgestionrutaparada/vistas/Imagenes/MapaRuta.png";
             Image applicationIcon = new Image(getClass().getResourceAsStream(imagePath));
             if (applicationIcon.isError()) {
-                throw new IOException("La imagen del icono no se cargó. Verifica que 'logo.png' exista en la ruta: " + imagePath);
+                throw new IOException("La imagen del icono no se cargo " + imagePath);
             }
             stage.getIcons().add(applicationIcon);
         } catch (Exception e) {

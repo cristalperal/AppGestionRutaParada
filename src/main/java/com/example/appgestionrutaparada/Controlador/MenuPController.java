@@ -133,7 +133,6 @@ public class MenuPController implements Initializable {
 
     //Objetivo: Inicializar el grafo, con sus nodos y aristas
     private void inicializarGrafo() {
-
         Grafo grafo = crudInstancia.obtenerGrafo();
         // para el algoritmo de floyd
         if (!grafo.getParada().isEmpty()) {
